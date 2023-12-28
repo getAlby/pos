@@ -1,6 +1,6 @@
 import { webln } from "@getalby/sdk";
 import React, { FormEvent } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 
 export function New() {
   const [amount, setAmount] = React.useState("");
@@ -41,6 +41,11 @@ export function New() {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           ></input>
+          <div className="mt-10">
+            <Link className="link link-secondary" to="../share">
+              Share with a co-worker
+            </Link>
+          </div>
         </div>
         <button className="btn btn-primary w-full" type="submit">
           Continue
