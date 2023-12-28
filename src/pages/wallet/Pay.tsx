@@ -1,4 +1,5 @@
 import { webln } from "@getalby/sdk";
+import { QRCodeSVG } from "qrcode.react";
 import React from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
@@ -32,9 +33,7 @@ export function Pay() {
   return (
     <>
       <p className="mb-4">Waiting for payment...</p>
-      <img
-        src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${invoice}`}
-      ></img>
+      <QRCodeSVG value={invoice} size={256} />
     </>
   );
 }
