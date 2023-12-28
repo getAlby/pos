@@ -154,33 +154,41 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
 
-"@getalby/bitcoin-connect-react@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@getalby/bitcoin-connect-react/-/bitcoin-connect-react-3.1.1.tgz#4e9a719d8f6ab3ee860566466c3e788784f7853a"
-  integrity sha512-4RWe+aVOgzGoMuxYvSDrG5i4j0736eZ3tuygggpuVSN7x3jBHiMYLv2v3SGsTQbAwN9yv4jhmM2L9emd6XXwFg==
+"@getalby/bitcoin-connect-react@^3.2.0-beta.0":
+  version "3.2.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@getalby/bitcoin-connect-react/-/bitcoin-connect-react-3.2.0-beta.0.tgz#0c74121f7ad1961b24b4134b067c939b50b6bba6"
+  integrity sha512-TfZPASz1sQIbjRgZKHSZJscXk++j/akQCzlgQcf6ShUMjPuscIv7Tx7A1eMuGD008nnlo86JtErDmTEObVS+rA==
   dependencies:
-    "@getalby/bitcoin-connect" "^3.1.0"
+    "@getalby/bitcoin-connect" "^3.2.0-beta.0"
 
-"@getalby/bitcoin-connect@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@getalby/bitcoin-connect/-/bitcoin-connect-3.1.0.tgz#7546bf200943a665cc8d28dc6cbc3ed9828ff178"
-  integrity sha512-AH/iK1HbKeW0Jl29leQZa9wclGLAPEaCVLgohjfZ2W42mrCxmOXFnXbaYYQyMwhLdXgrt2M6u7yyDY1zWH43pw==
+"@getalby/bitcoin-connect@^3.2.0-beta.0":
+  version "3.2.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@getalby/bitcoin-connect/-/bitcoin-connect-3.2.0-beta.0.tgz#e8fbf46d4bc3d3794c6784ae0ea4ee5cfe94b142"
+  integrity sha512-/o+GJ1x+po5LuBaICjRIZ0Ph5xNyaxX7C+w/4ta8os8TkPIlSXGq8WjLEJK8XbQsHXPH1gMDxhD9bZTHCEvaDw==
   dependencies:
     "@getalby/lightning-tools" "^5.0.0"
-    "@getalby/sdk" "^3.0.0"
+    "@getalby/sdk" "^3.2.3"
     "@lightninglabs/lnc-web" "^0.2.8-alpha"
     qrcode-generator "^1.4.4"
-    zustand "^4.4.1"
+    zustand "^4.4.7"
 
 "@getalby/lightning-tools@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@getalby/lightning-tools/-/lightning-tools-5.0.0.tgz#eefe1fc1ecf28582d6c922c9e22dc28bf3af27c6"
   integrity sha512-j3x90CGclpyZTHJRVWvA95jQniu5A+xqvmJNPSkXyzYCdJiFG5oZFWNwC0N+q7Oa8cTvp7wB7FdDqxH+Le0/Nw==
 
-"@getalby/sdk@^3.0.0", "@getalby/sdk@^3.2.2":
+"@getalby/sdk@^3.2.2":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@getalby/sdk/-/sdk-3.2.2.tgz#a640fef78f4462fd8924eab9ab8a8f9a0339a11e"
   integrity sha512-G4Ooteo/5D6SXB+y8OK8gxXWALGh4HFgq8ZqT3rBMo3FV7U/fDjf+/jn/SMsJ7ub/nEzUBBTGdfARdVoYqMvSQ==
+  dependencies:
+    events "^3.3.0"
+    nostr-tools "^1.17.0"
+
+"@getalby/sdk@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@getalby/sdk/-/sdk-3.2.3.tgz#3031d64e935feea879b969da0a17ee05800fba1d"
+  integrity sha512-8eIqg1vEH2CdkNoHsIlL5q2bKLvLR+XiSWK2RQnTAB+Z0CNlVW2jRM8JxxeubHnKBDTiBrBMkPqBIAhQqc8now==
   dependencies:
     events "^3.3.0"
     nostr-tools "^1.17.0"
@@ -1884,7 +1892,7 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zustand@^4.4.1:
+zustand@^4.4.7:
   version "4.4.7"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.4.7.tgz#355406be6b11ab335f59a66d2cf9815e8f24038c"
   integrity sha512-QFJWJMdlETcI69paJwhSMJz7PPWjVP8Sjhclxmxmxv/RYI7ZOvR5BHX+ktH0we9gTWQMxcne8q1OY8xxz604gw==

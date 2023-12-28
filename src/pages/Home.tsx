@@ -15,6 +15,13 @@ export function Home() {
     init({
       filters: ["nwc"],
       showBalance: false,
+      providerConfig: {
+        nwc: {
+          authorizationUrlOptions: {
+            requestMethods: ["get_info", "make_invoice", "lookup_invoice"],
+          },
+        },
+      },
     });
     disconnect();
   }, []);
