@@ -292,6 +292,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@popicons/react@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@popicons/react/-/react-0.0.8.tgz#b329abf0f0f12da76e6eb1a1824f075cac23eb2d"
+  integrity sha512-/WyuFuSAThK9zCHiIY7N+jxAWnqu4C8kkhXIkj5PcPlBYGKw9T93UheWz+KkSLnAQIUI+jovVrSMV/AZuPROqg==
+
 "@remix-run/router@1.14.1":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.14.1.tgz#6d2dd03d52e604279c38911afc1079d58c50a755"
