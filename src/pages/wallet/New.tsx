@@ -30,13 +30,13 @@ export function New() {
     <>
       <form
         onSubmit={onSubmit}
-        className="flex flex-col justify-center items-center h-full flex-1"
+        className="flex flex-col justify-center items-center max-w-full h-full"
       >
-        <div className="flex-1 flex flex-col justify-center items-center">
-          <p className="mb-4">Amount (sats)</p>
+        <div className="flex flex-col justify-center items-center grow max-w-full gap-5">
+          <p>Amount (sats)</p>
           <input
             type="number"
-            className="input input-ghost text-6xl text-center"
+            className="input input-ghost text-6xl text-center max-w-full"
             placeholder="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}

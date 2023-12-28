@@ -2,7 +2,7 @@ import { Invoice } from "@getalby/lightning-tools";
 import { webln } from "@getalby/sdk";
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 export function Pay() {
   const { invoice } = useParams();
@@ -38,13 +38,20 @@ export function Pay() {
   }
 
   return (
-    <div className="flex gap-5 flex-col justify-center items-center">
-      <span className="text-4xl font-bold">{amount} sats</span>
-      <QRCodeSVG value={invoice} size={256} />
-      <p className="flex flex-row justify-center items-center gap-2 mb-4">
-        <span className="loading loading-spinner text-primary"></span>
-        Waiting for payment...
+    <>
+      <div className="flex grow gap-5 flex-col justify-center items-center">
+        <span className="text-4xl font-bold">{amount} sats</span>
+        <QRCodeSVG value={invoice} size={256} />
+        <p className="flex flex-row justify-center items-center gap-2 mb-4">
+          <span className="loading loading-spinner text-primary"></span>
+          Waiting for payment...
+        </p>
+      </div>
+      <p>
+        <Link to="" onClick={() => navigate(-1)}>
+          <a className="link link-secondary">Back</a>
+        </Link>
       </p>
-    </div>
+    </>
   );
 }

@@ -10,7 +10,7 @@ function App() {
   return (
     <div
       data-theme="bumblebee"
-      className="flex flex-col justify-center items-center w-full min-h-full p-8 font-sans"
+      className="flex flex-col justify-center items-center p-8 font-sans h-full"
     >
       <HashRouter>
         <Routes>
