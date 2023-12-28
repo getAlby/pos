@@ -35,6 +35,7 @@ export function New() {
         <div className="flex-1 flex flex-col justify-center items-center">
           <p className="mb-4">Amount (sats)</p>
           <input
+            type="number"
             className="input input-ghost text-6xl text-center"
             placeholder="0"
             value={amount}
