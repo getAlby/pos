@@ -14,6 +14,7 @@ export function Home() {
     // TODO: allow specifying the NWC methods in advance
     init({
       filters: ["nwc"],
+      showBalance: false,
     });
     disconnect();
   }, []);
