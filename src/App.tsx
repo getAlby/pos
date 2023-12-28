@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Wallet } from "./pages/Wallet";
 import { NotFound } from "./pages/NotFound";
@@ -12,7 +12,7 @@ function App() {
       data-theme="bumblebee"
       className="flex flex-col justify-center items-center w-full min-h-full p-8 font-sans"
     >
-      <BrowserRouter basename="/pos">
+      <HashRouter>
         <Routes>
           <Route path="/" Component={Home} />
           <Route path="/wallet/:nwcUrl" Component={Wallet}>
@@ -22,7 +22,7 @@ function App() {
           </Route>
           <Route path="/*" Component={NotFound} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
