@@ -4,6 +4,7 @@ import {
   PopiconsCartDuotone,
   PopiconsShareDuotone,
   PopiconsLeftSidebarTopNavDuotone,
+  PopiconsLogoutDuotone,
 } from "@popicons/react";
 
 export function Navbar() {
@@ -22,6 +23,16 @@ export function Navbar() {
               <Link to="../share">
                 <PopiconsShareDuotone className="w-4 h-4" /> Share with a
                 co-worker
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/"
+                onClick={() => {
+                  window.localStorage.removeItem("pos:nwcUrl");
+                }}
+              >
+                <PopiconsLogoutDuotone className="w-4 h-4" /> Log out
               </Link>
             </li>
           </ul>

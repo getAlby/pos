@@ -10,8 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { BuzzPay } from "../components/icons/BuzzPay";
 
 export function Home() {
+  const navigate = useNavigate();
   React.useEffect(() => {
-    // TODO: allow specifying the NWC methods in advance
+    const nwcUrl = window.localStorage.getItem("pos:nwcUrl");
+    if (nwcUrl) {
+      console.log("Restoring wallet URL", nwcUrl);
+      navigate(`/wallet/${encodeURIComponent(nwcUrl)}/new`);
+    }
+
     init({
       filters: ["nwc"],
       showBalance: false,
@@ -24,9 +30,7 @@ export function Home() {
       },
     });
     disconnect();
-  }, []);
-
-  const navigate = useNavigate();
+  }, [navigate]);
 
   return (
     <>

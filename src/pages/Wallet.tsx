@@ -21,6 +21,7 @@ export function Wallet() {
 
           await _provider.enable();
           setProvider(_provider);
+          window.localStorage.setItem("pos:nwcUrl", nwcUrl);
         } catch (error) {
           console.error(error);
           alert("Failed to load wallet: " + error);
