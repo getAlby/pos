@@ -8,11 +8,12 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BuzzPay } from "../components/icons/BuzzPay";
+import { localStorageKeys } from "../constants";
 
 export function Home() {
   const navigate = useNavigate();
   React.useEffect(() => {
-    const nwcUrl = window.localStorage.getItem("pos:nwcUrl");
+    const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
     if (nwcUrl) {
       console.log("Restoring wallet URL", nwcUrl);
       navigate(`/wallet/${encodeURIComponent(nwcUrl)}/new`);

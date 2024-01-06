@@ -6,6 +6,7 @@ import {
   PopiconsLeftSidebarTopNavDuotone,
   PopiconsLogoutDuotone,
 } from "@popicons/react";
+import { localStorageKeys } from "../constants";
 
 export function Navbar() {
   return (
@@ -29,7 +30,7 @@ export function Navbar() {
               <Link
                 to="/"
                 onClick={() => {
-                  window.localStorage.removeItem("pos:nwcUrl");
+                  window.localStorage.removeItem(localStorageKeys.nwcUrl);
                 }}
               >
                 <PopiconsLogoutDuotone className="w-4 h-4" /> Log out
