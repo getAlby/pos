@@ -6,6 +6,7 @@ import { New } from "./pages/wallet/New";
 import { Pay } from "./pages/wallet/Pay";
 import { Paid } from "./pages/wallet/Paid";
 import { Share } from "./pages/wallet/Share";
+import { About } from "./pages/About";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="paid" Component={Paid} />
             <Route path="share" Component={Share} />
           </Route>
+          <Route path="/about" Component={About} />
           <Route path="/*" Component={NotFound} />
         </Routes>
       </HashRouter>

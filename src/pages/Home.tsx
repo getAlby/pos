@@ -9,6 +9,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BuzzPay } from "../components/icons/BuzzPay";
 import { localStorageKeys } from "../constants";
+import { Footer } from "../components/Footer";
 
 export function Home() {
   const navigate = useNavigate();
@@ -35,8 +36,8 @@ export function Home() {
 
   return (
     <>
-      <div className="flex justify-center items-center w-full h-full bg-primary">
-        <div className="flex flex-col justify-center items-center max-w-lg">
+      <div className="flex flex-col justify-center items-center w-full h-full bg-primary">
+        <div className="flex flex-1 flex-col justify-center items-center max-w-lg">
           <BuzzPay className="mb-8" />
 
           <p className="text-center mb-24">
@@ -82,6 +83,7 @@ export function Home() {
             Import wallet URL
           </button>
         </div>
+        <Footer />
       </div>
     </>
   );

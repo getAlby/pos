@@ -5,6 +5,7 @@ import {
   PopiconsShareDuotone,
   PopiconsLeftSidebarTopNavDuotone,
   PopiconsLogoutDuotone,
+  PopiconsBulbDuotone,
 } from "@popicons/react";
 import { localStorageKeys } from "../constants";
 
@@ -34,6 +35,16 @@ export function Navbar() {
                 }}
               >
                 <PopiconsLogoutDuotone className="w-4 h-4" /> Log out
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about"
+                onClick={() => {
+                  window.localStorage.removeItem(localStorageKeys.nwcUrl);
+                }}
+              >
+                <PopiconsBulbDuotone className="w-4 h-4" /> About BuzzPay
               </Link>
             </li>
           </ul>
