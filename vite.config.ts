@@ -14,7 +14,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
     display: "standalone",
     icons: [
       {
-        src: "icon.png",
+        src: "shortcut-icon.png",
         type: "image/png",
         sizes: "512x512",
       },
