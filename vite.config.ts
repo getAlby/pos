@@ -9,8 +9,8 @@ const pwaConfig: Partial<VitePWAOptions> = {
     short_name: "BuzzPay",
     description: "Alby's super simple self-custodial PoS",
     scope: "/pos/",
-    background_color: "#FFDF6F",
-    theme_color: "#FFDF6F",
+    background_color: "#FCE589",
+    theme_color: "#FCE589",
     display: "standalone",
     icons: [
       {

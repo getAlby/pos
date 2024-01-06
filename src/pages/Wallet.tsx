@@ -38,5 +38,9 @@ export function Wallet() {
     return null;
   }
 
-  return <Outlet context={provider} />;
+  return (
+    <div className="flex flex-col w-full h-full p-2">
+      <Outlet context={provider} />
+    </div>
+  );
 }

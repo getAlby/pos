@@ -1,4 +1,4 @@
-import { PopiconsCircleCheckDuotone } from "@popicons/react"
+import { PopiconsCircleCheckDuotone } from "@popicons/react";
 import { Link } from "react-router-dom";
 
 export function Paid() {

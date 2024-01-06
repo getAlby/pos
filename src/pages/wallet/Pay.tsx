@@ -2,7 +2,8 @@ import { Invoice } from "@getalby/lightning-tools";
 import { webln } from "@getalby/sdk";
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { Backbar } from "../../components/Backbar";
 
 export function Pay() {
   const { invoice } = useParams();
@@ -12,7 +13,6 @@ export function Pay() {
 
   useEffect(() => {
     if (invoice) {
-
       const inv = new Invoice({ pr: invoice });
       const { satoshi } = inv;
       setAmount(satoshi);
@@ -39,6 +39,7 @@ export function Pay() {
 
   return (
     <>
+      <Backbar />
       <div className="flex grow gap-5 flex-col justify-center items-center">
         <span className="text-4xl font-bold">{amount} sats</span>
         <QRCodeSVG value={invoice} size={256} />
@@ -47,11 +48,6 @@ export function Pay() {
           Waiting for payment...
         </p>
       </div>
-      <p>
-        <Link to="" onClick={() => navigate(-1)}>
-          <a className="link link-secondary">Back</a>
-        </Link>
-      </p>
     </>
   );
 }

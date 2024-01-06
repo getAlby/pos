@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,4 +9,8 @@ html,
 body {
   width: 100%;
   height: 100%;
+}
+
+html {
+  --bc-color-brand: #000000;
 }
