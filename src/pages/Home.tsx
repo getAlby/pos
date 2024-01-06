@@ -74,8 +74,23 @@ export function Home() {
               }
             }}
           />
+          <button
+            className="btn btn-outline mt-8 btn-sm btn-secondary"
+            onClick={importWallet}
+          >
+            Import wallet URL
+          </button>
         </div>
       </div>
     </>
   );
+}
+
+// Needed on iOS because PWA localStorage is not shared with Safari.
+// PWA can only be installed with a static URL (e.g. "/pos/").
+function importWallet() {
+  const url = prompt("Copy wallet URL from your browser");
+  if (url) {
+    window.location.href = url;
+  }
 }
