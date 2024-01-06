@@ -3,7 +3,7 @@ import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 import react from "@vitejs/plugin-react-swc";
 
 const pwaConfig: Partial<VitePWAOptions> = {
-  includeAssets: ["icon.png", "icon.svg"],
+  includeAssets: ["shortcut-icon.png", "icon.png", "icon.svg"],
   manifest: {
     name: "BuzzPay",
     short_name: "BuzzPay",
