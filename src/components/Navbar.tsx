@@ -28,7 +28,7 @@ export function Navbar() {
         </div>
       </div>
       <div className="flex-1 justify-center">
-        <BuzzPay className="h-6 mt-2" />
+        <BuzzPay className="w-24 h-6 mt-2" />
       </div>
       <div className="flex-none">
         <button

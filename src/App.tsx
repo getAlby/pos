@@ -11,7 +11,7 @@ function App() {
   return (
     <div
       data-theme="bumblebee"
-      className="flex flex-col justify-center items-center font-sans h-full"
+      className="flex flex-col justify-center items-center font-sans h-full w-full"
     >
       <HashRouter>
         <Routes>

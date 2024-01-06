@@ -27,4 +27,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
 export default defineConfig({
   plugins: [react(), VitePWA(pwaConfig)],
   base: "/pos/",
+  server: {
+    host: "0.0.0.0",
+  },
 });
