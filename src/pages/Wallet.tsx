@@ -1,6 +1,7 @@
 import { webln } from "@getalby/sdk";
 import React from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { localStorageKeys } from "../constants";
 
 export function Wallet() {
   const { nwcUrl } = useParams();
@@ -21,6 +22,9 @@ export function Wallet() {
 
           await _provider.enable();
           setProvider(_provider);
+
+          // store the wallet URL so PWA can restore it (PWA always loads on the homepage)
+          window.localStorage.setItem(localStorageKeys.nwcUrl, nwcUrl);
         } catch (error) {
           console.error(error);
           alert("Failed to load wallet: " + error);

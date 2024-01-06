@@ -8,10 +8,17 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BuzzPay } from "../components/icons/BuzzPay";
+import { localStorageKeys } from "../constants";
 
 export function Home() {
+  const navigate = useNavigate();
   React.useEffect(() => {
-    // TODO: allow specifying the NWC methods in advance
+    const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
+    if (nwcUrl) {
+      console.log("Restoring wallet URL", nwcUrl);
+      navigate(`/wallet/${encodeURIComponent(nwcUrl)}/new`);
+    }
+
     init({
       filters: ["nwc"],
       showBalance: false,
@@ -24,9 +31,7 @@ export function Home() {
       },
     });
     disconnect();
-  }, []);
-
-  const navigate = useNavigate();
+  }, [navigate]);
 
   return (
     <>
@@ -70,8 +75,23 @@ export function Home() {
               }
             }}
           />
+          <button
+            className="btn btn-outline mt-8 btn-sm btn-secondary"
+            onClick={importWallet}
+          >
+            Import wallet URL
+          </button>
         </div>
       </div>
     </>
   );
+}
+
+// Needed on iOS because PWA localStorage is not shared with Safari.
+// PWA can only be installed with a static URL (e.g. "/pos/").
+function importWallet() {
+  const url = prompt("Copy wallet URL from your browser");
+  if (url) {
+    window.location.href = url;
+  }
 }
