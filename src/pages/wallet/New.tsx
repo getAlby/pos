@@ -14,19 +14,8 @@ export function New() {
 
   function convertCurrentEntryToCartItem() {
     if (amount) {
-      const findFreeLabel = () => {
-        const labelPrefix = "Item ";
-        let index = 0;
-        let freeLabel: string;
-        do {
-          index++;
-          freeLabel = `${labelPrefix}${index}`;
-        } while (cart.some((item) => item.name === freeLabel));
-        return freeLabel;
-      };
-
       addItemToCart({
-        name: label || findFreeLabel(),
+        name: label,
         price: parseInt(amount),
       });
     }
@@ -42,13 +31,16 @@ export function New() {
       if (!finalCart.length) {
         throw new Error("Empty cart");
       }
-      let memo = "";
+      const memoParts = [];
 
       // TODO: group cart items
-      memo += finalCart.map((item) => item.name).join(", ");
-      memo += " - ";
+      const names = finalCart.map((item) => item.name).filter((i) => !!i);
+      if (names.length > 0) {
+        memoParts.push(names.join(", "));
+      }
+      memoParts.push("BuzzPay");
 
-      memo += "BuzzPay";
+      const memo = memoParts.join(" - ").substring(0, MAX_MEMO_LENGTH);
 
       const totalAmount = finalCart
         .map((cart) => cart.price * cart.quantity)
@@ -56,7 +48,7 @@ export function New() {
 
       const invoice = await provider?.makeInvoice({
         amount: totalAmount,
-        defaultMemo: memo.substring(0, MAX_MEMO_LENGTH),
+        defaultMemo: memo,
       });
       navigate(`../pay/${invoice.paymentRequest}`);
     } catch (error) {
