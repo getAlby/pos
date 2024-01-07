@@ -48,7 +48,7 @@ export function New() {
       memo += finalCart.map((item) => item.name).join(", ");
       memo += " - ";
 
-      memo += "Alby PoS";
+      memo += "BuzzPay";
 
       const totalAmount = finalCart
         .map((cart) => cart.price * cart.quantity)
