@@ -4,7 +4,7 @@ import { Footer } from "../components/Footer";
 export function About() {
   return (
     <>
-      <Backbar />
+      <Backbar navigateTo={-1} />
       <div className="flex grow gap-5 flex-col justify-start items-center max-w-lg">
         <h1 className="text-xl">About</h1>
         <p>
