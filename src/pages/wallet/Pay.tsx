@@ -8,6 +8,7 @@ import { useProfilePubkey } from "../../hooks/useProfilePubkey";
 import useStore from "../../state/store";
 
 export function Pay() {
+  const { clearCart } = useStore();
   const { invoice } = useParams();
   const navigate = useNavigate();
   const { cart, provider } = useStore();
@@ -69,6 +70,15 @@ export function Pay() {
           <span className="loading loading-spinner text-primary"></span>
           Waiting for payment...
         </p>
+        <button
+          onClick={() => {
+            clearCart();
+            navigate("../new");
+          }}
+          className="btn"
+        >
+          Cancel
+        </button>
       </div>
     </>
   );
