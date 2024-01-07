@@ -4,7 +4,10 @@ import {
   PopiconsCartDuotone,
   PopiconsShareDuotone,
   PopiconsLeftSidebarTopNavDuotone,
+  PopiconsLogoutDuotone,
+  PopiconsBulbDuotone,
 } from "@popicons/react";
+import { localStorageKeys } from "../constants";
 
 export function Navbar() {
   return (
@@ -22,6 +25,26 @@ export function Navbar() {
               <Link to="../share">
                 <PopiconsShareDuotone className="w-4 h-4" /> Share with a
                 co-worker
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/"
+                onClick={() => {
+                  window.localStorage.removeItem(localStorageKeys.nwcUrl);
+                }}
+              >
+                <PopiconsLogoutDuotone className="w-4 h-4" /> Log out
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about"
+                onClick={() => {
+                  window.localStorage.removeItem(localStorageKeys.nwcUrl);
+                }}
+              >
+                <PopiconsBulbDuotone className="w-4 h-4" /> About BuzzPay
               </Link>
             </li>
           </ul>

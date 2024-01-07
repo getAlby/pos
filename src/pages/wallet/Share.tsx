@@ -1,6 +1,5 @@
 import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Backbar } from "../../components/Backbar";
 
 export function Share() {
@@ -22,9 +21,6 @@ export function Share() {
           value={shareURI}
           className="input input-bordered overflow-ellipsis w-full max-w-xs"
         />
-        <Link className="btn btn-primary w-full" to="../new">
-          Back
-        </Link>
       </div>
     </>
   );
