@@ -6,7 +6,10 @@ export function Backbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
-        <button className="btn btn-ghost m-1" onClick={() => navigate(-1)}>
+        <button
+          className="btn btn-ghost m-1"
+          onClick={() => navigate("../new")}
+        >
           <PopiconsArrowLeftDuotone className="w-6 h-6" />
         </button>
       </div>

@@ -41,7 +41,6 @@ export function Pay() {
   }, [invoice, navigate, provider]);
 
   if (!invoice) {
-    navigate(-1);
     return null;
   }
 
