@@ -5,32 +5,57 @@ import useStore from "../../state/store";
 import { MAX_MEMO_LENGTH } from "../../constants";
 
 export function New() {
-  const { amount, setAmount, cart } = useStore();
+  const [amount, setAmount] = React.useState("");
+  const [label, setLabel] = React.useState("");
+  const { cart, addItemToCart } = useStore();
   const [isLoading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const provider = useStore((store) => store.provider);
+
+  function convertCurrentEntryToCartItem() {
+    if (amount) {
+      const findFreeLabel = () => {
+        const labelPrefix = "Item ";
+        let index = 0;
+        let freeLabel: string;
+        do {
+          index++;
+          freeLabel = `${labelPrefix}${index}`;
+        } while (cart.some((item) => item.name === freeLabel));
+        return freeLabel;
+      };
+
+      addItemToCart({
+        name: label || findFreeLabel(),
+        price: parseInt(amount),
+      });
+    }
+  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     try {
       setLoading(true);
-      const amountSats = parseInt(amount);
-      if (isNaN(amountSats) || amountSats < 1) {
-        throw new Error("Invalid amount: " + amountSats);
-      }
+      convertCurrentEntryToCartItem();
 
+      const finalCart = useStore.getState().cart;
+      if (!finalCart.length) {
+        throw new Error("Empty cart");
+      }
       let memo = "";
 
-      if (cart.length) {
-        // TODO: group cart items
-        memo += cart.map((cart) => cart.name).join(", ");
-        memo += " - ";
-      }
+      // TODO: group cart items
+      memo += finalCart.map((item) => item.name).join(", ");
+      memo += " - ";
 
       memo += "Alby PoS";
 
+      const totalAmount = finalCart
+        .map((cart) => cart.price * cart.quantity)
+        .reduce((a, b) => a + b);
+
       const invoice = await provider?.makeInvoice({
-        amount: amountSats,
+        amount: totalAmount,
         defaultMemo: memo.substring(0, MAX_MEMO_LENGTH),
       });
       navigate(`../pay/${invoice.paymentRequest}`);
@@ -43,7 +68,7 @@ export function New() {
 
   return (
     <>
-      <Navbar />
+      <Navbar onOpenCart={convertCurrentEntryToCartItem} />
       <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
         <form
           onSubmit={onSubmit}
@@ -62,13 +87,28 @@ export function New() {
                 setAmount(e.target.value);
               }}
             ></input>
+            <button
+              type="button"
+              onClick={() => {
+                const newLabel = prompt("Label", label);
+                if (newLabel) {
+                  setLabel(newLabel);
+                }
+              }}
+            >
+              {label || "+ Add label"}
+            </button>
           </div>
           <button
             className="btn btn-primary w-full"
             type="submit"
-            disabled={isLoading || !amount}
+            disabled={isLoading || (!amount && !cart.length)}
           >
-            Charge
+            Charge{" "}
+            {cart
+              .map((cart) => cart.price * cart.quantity)
+              .reduce((a, b) => a + b, parseInt(amount || "0"))}{" "}
+            sats
             {isLoading && <span className="loading loading-spinner"></span>}
           </button>
         </form>

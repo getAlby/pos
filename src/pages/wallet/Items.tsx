@@ -7,8 +7,7 @@ import { Item } from "../../types";
 import useStore from "../../state/store";
 
 export function Items() {
-  const { amount, setAmount, cart, addItemToCart, startNewPurchase } =
-    useStore();
+  const { cart, addItemToCart, removeItemFromCart, clearCart } = useStore();
   const [itemName, setItemName] = React.useState("");
   const [itemPrice, setItemPrice] = React.useState("");
   const [isSaving, setSaving] = React.useState(false);
@@ -57,35 +56,57 @@ export function Items() {
       <Backbar />
       <div className="flex flex-1 flex-col w-full h-full justify-center items-center gap-4">
         <h1 className="text-lg">Cart</h1>
-        {itemsData.items.map((item) => (
-          <button
+        {cart.map((item) => (
+          <div
             key={item.name}
-            onClick={() => {
-              setAmount((parseInt(amount || "0") + item.price).toString());
-              addItemToCart(item);
-            }}
-            className="btn btn-primary"
+            className="flex justify-center items-center gap-2"
           >
-            {item.name} - {item.price} sats (
-            {
-              cart.filter(
-                (cartItem) => JSON.stringify(cartItem) === JSON.stringify(item)
-              ).length
-            }
-            )
-          </button>
+            <p className="flex-1">
+              {item.name} - {item.price} sats ({item.quantity})
+            </p>
+            <button
+              onClick={() => {
+                addItemToCart(item);
+              }}
+              className="btn btn-success"
+            >
+              +
+            </button>
+            <button
+              onClick={() => {
+                removeItemFromCart(item);
+              }}
+              className="btn btn-error"
+            >
+              -
+            </button>
+          </div>
         ))}
-
         {cart.length > 0 && (
           <button
             onClick={() => {
-              startNewPurchase();
+              clearCart();
             }}
             className="btn btn-error"
           >
             Clear cart
           </button>
         )}
+        <h1 className="text-lg">Add Items</h1>
+        {itemsData.items.map((item) => (
+          <button
+            key={item.name}
+            onClick={() => {
+              addItemToCart(item);
+            }}
+            className="btn btn-primary"
+          >
+            {item.name} - {item.price} sats (
+            {cart.find((cartItem) => cartItem.name === item.name)?.quantity ||
+              0}
+            )
+          </button>
+        ))}
 
         <form
           onSubmit={onSubmit}

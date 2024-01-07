@@ -11,7 +11,11 @@ import {
 import { localStorageKeys } from "../constants";
 import useStore from "../state/store";
 
-export function Navbar() {
+type NavbarProps = {
+  onOpenCart?: () => void;
+};
+
+export function Navbar({ onOpenCart }: NavbarProps) {
   const { cart } = useStore();
   return (
     <div className="navbar bg-base-100">
@@ -62,12 +66,12 @@ export function Navbar() {
         <BuzzPay className="w-24 h-6 mt-2" />
       </div>
       <div className="flex-none">
-        <Link to="../items">
+        <Link to="../items" onClick={onOpenCart}>
           <button className="btn btn-square btn-ghost relative">
             <PopiconsCartDuotone className="w-6 h-6" />
             {cart.length > 0 && (
               <div className="badge badge-info absolute -top-2 -right-2">
-                {cart.length}
+                {cart.map((item) => item.quantity).reduce((a, b) => a + b)}
               </div>
             )}
           </button>

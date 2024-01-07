@@ -1,40 +1,71 @@
 import { webln } from "@getalby/sdk";
 import { create } from "zustand";
-import { Item } from "../types";
+import { CartItem, Item } from "../types";
 
 interface Store {
   readonly provider: webln.NostrWebLNProvider | undefined;
-  readonly amount: string;
-  readonly cart: Item[];
+  readonly cart: CartItem[];
 
   setProvider(provider: webln.NostrWebLNProvider | undefined): void;
-  setAmount(amount: string): void;
   addItemToCart(item: Item): void;
-  startNewPurchase(): void;
+  removeItemFromCart(item: Item): void;
+  clearCart(): void;
 }
 
 const useStore = create<Store>((set, get) => ({
   provider: undefined,
-  ...newPurchase(),
-  setAmount: (amount) => {
-    set({ amount });
-  },
+  cart: [],
   setProvider: (provider) => {
     set({ provider });
   },
   addItemToCart: (item) => {
-    set({ cart: [...get().cart, item] });
+    const currentCart = get().cart;
+    const existingItem = currentCart.find(
+      (existing) => existing.name === item.name
+    );
+    if (existingItem) {
+      const existingItemIndex = currentCart.indexOf(existingItem);
+      set({
+        cart: [
+          ...currentCart.slice(0, existingItemIndex),
+          { ...existingItem, quantity: existingItem.quantity + 1 },
+          ...currentCart.slice(existingItemIndex + 1),
+        ],
+      });
+    } else {
+      set({
+        cart: [...currentCart, { ...item, quantity: 1 }],
+      });
+    }
   },
-  startNewPurchase: () => {
-    set(newPurchase());
+  removeItemFromCart: (item) => {
+    const currentCart = get().cart;
+    const existingItem = currentCart.find(
+      (existing) => existing.name === item.name
+    );
+    if (!existingItem) {
+      return;
+    }
+    if (existingItem.quantity > 1) {
+      const existingItemIndex = currentCart.indexOf(existingItem);
+      set({
+        cart: [
+          ...currentCart.slice(0, existingItemIndex),
+          { ...existingItem, quantity: existingItem.quantity - 1 },
+          ...currentCart.slice(existingItemIndex + 1),
+        ],
+      });
+    } else {
+      set({
+        cart: currentCart.filter((item) => item !== existingItem),
+      });
+    }
+  },
+  clearCart: () => {
+    set({
+      cart: [],
+    });
   },
 }));
-
-function newPurchase() {
-  return {
-    amount: "",
-    cart: [],
-  };
-}
 
 export default useStore;

@@ -30,7 +30,7 @@ export function Pay() {
           paymentRequest: invoice,
         });
         if (response.paid) {
-          useStore.getState().startNewPurchase();
+          useStore.getState().clearCart();
           navigate("../paid");
         }
       }, 3000);
