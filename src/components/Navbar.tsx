@@ -1,41 +1,28 @@
 import { Link } from "react-router-dom";
 import { BuzzPay } from "./icons/BuzzPay";
 import {
-  PopiconsCartDuotone,
   PopiconsShareDuotone,
   PopiconsLeftSidebarTopNavDuotone,
   PopiconsLogoutDuotone,
   PopiconsBulbDuotone,
-  PopiconsFaceSmileDuotone,
 } from "@popicons/react";
 import { localStorageKeys } from "../constants";
-import useStore from "../state/store";
 
-type NavbarProps = {
-  onOpenCart?: () => void;
-};
-
-export function Navbar({ onOpenCart }: NavbarProps) {
-  const { cart } = useStore();
+export function Navbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-            <PopiconsLeftSidebarTopNavDuotone className="w-6 h-6" />
+            <PopiconsLeftSidebarTopNavDuotone className="h-6 w-6" />
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-60"
+            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-60 p-2 shadow"
           >
             <li>
-              <Link to="../profile">
-                <PopiconsFaceSmileDuotone className="w-4 h-4" /> Profile
-              </Link>
-            </li>
-            <li>
               <Link to="../share">
-                <PopiconsShareDuotone className="w-4 h-4" /> Share with a
+                <PopiconsShareDuotone className="h-4 w-4" /> Share with a
                 co-worker
               </Link>
             </li>
@@ -46,7 +33,7 @@ export function Navbar({ onOpenCart }: NavbarProps) {
                   window.localStorage.removeItem(localStorageKeys.nwcUrl);
                 }}
               >
-                <PopiconsBulbDuotone className="w-4 h-4" /> About BuzzPay
+                <PopiconsBulbDuotone className="h-4 w-4" /> About BuzzPay
               </Link>
             </li>
             <li>
@@ -55,7 +42,7 @@ export function Navbar({ onOpenCart }: NavbarProps) {
                 onClick={(e) => {
                   if (
                     !confirm(
-                      "Are you sure you wish to log out? your wallet will be lost."
+                      "Are you sure you wish to log out? your wallet will be lost.",
                     )
                   ) {
                     e.preventDefault();
@@ -65,27 +52,16 @@ export function Navbar({ onOpenCart }: NavbarProps) {
                 }}
                 className="text-error"
               >
-                <PopiconsLogoutDuotone className="w-4 h-4" /> Log out
+                <PopiconsLogoutDuotone className="h-4 w-4" /> Log out
               </Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="flex-1 justify-center">
-        <BuzzPay className="w-24 h-6 mt-2" />
+        <BuzzPay className="mt-2 h-6 w-24" />
       </div>
-      <div className="flex-none">
-        <Link to="../items" onClick={onOpenCart}>
-          <button className="btn btn-square btn-ghost relative">
-            <PopiconsCartDuotone className="w-6 h-6" />
-            {cart.length > 0 && (
-              <div className="badge badge-info absolute -top-2 -right-2">
-                {cart.map((item) => item.quantity).reduce((a, b) => a + b)}
-              </div>
-            )}
-          </button>
-        </Link>
-      </div>
+      <div className="flex-none"></div>
     </div>
   );
 }

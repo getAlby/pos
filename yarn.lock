@@ -2936,7 +2936,7 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==
 
-lodash@^4.17.20, lodash@^4.17.21:
+lodash@^4.17.20:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -3040,17 +3040,7 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-nostr-hooks@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/nostr-hooks/-/nostr-hooks-1.8.2.tgz#6a761098c8c7482b6ab46b31dd50c6309d292102"
-  integrity sha512-VEnn1xlmHgxNyBZe66VpigX4d1NcF7GveDu5MjOGfKkYAZl47+GmIs2LLzthVA0Lf3DVSrdAwfZ6ld6lBtCpHQ==
-  dependencies:
-    lodash "^4.17.21"
-    nostr-tools "^1.17.0"
-    react "^18.2.0"
-    zustand "^4.4.7"
-
-nostr-tools@1.17.0, nostr-tools@^1.17.0:
+nostr-tools@^1.17.0:
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/nostr-tools/-/nostr-tools-1.17.0.tgz#b6f62e32fedfd9e68ec0a7ce57f74c44fc768e8c"
   integrity sha512-LZmR8GEWKZeElbFV5Xte75dOeE9EFUW/QLI1Ncn3JKn0kFddDKEfBbFN8Mu4TMs+L4HR/WTPha2l+PPuRnJcMw==
