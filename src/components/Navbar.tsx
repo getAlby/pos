@@ -52,9 +52,18 @@ export function Navbar({ onOpenCart }: NavbarProps) {
             <li>
               <Link
                 to="/"
-                onClick={() => {
+                onClick={(e) => {
+                  if (
+                    !confirm(
+                      "Are you sure you wish to log out? your wallet will be lost."
+                    )
+                  ) {
+                    e.preventDefault();
+                    return;
+                  }
                   window.localStorage.removeItem(localStorageKeys.nwcUrl);
                 }}
+                className="text-error"
               >
                 <PopiconsLogoutDuotone className="w-4 h-4" /> Log out
               </Link>
