@@ -44,16 +44,18 @@ export function New() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-1 flex-col w-full h-full justify-center items-center">
+      <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
         <form
           onSubmit={onSubmit}
-          className="flex flex-col justify-center items-center w-full h-full"
+          className="flex h-full w-full flex-col items-center justify-center"
         >
-          <div className="flex flex-col justify-center items-center grow max-w-full gap-5">
+          <div className="flex max-w-full grow flex-col items-center justify-center gap-5">
             <p>Amount (sats)</p>
             <input
               type="number"
-              className="input input-ghost text-6xl text-center max-w-full"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              className="input input-ghost max-w-full text-center text-6xl p-16"
               placeholder="0"
               value={amount}
               onChange={(e) => {
