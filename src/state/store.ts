@@ -11,7 +11,6 @@ interface Store {
   setAmount(amount: string): void;
   addItemToCart(item: Item): void;
   startNewPurchase(): void;
-  clearCart(): void;
 }
 
 const useStore = create<Store>((set, get) => ({
@@ -25,11 +24,6 @@ const useStore = create<Store>((set, get) => ({
   },
   addItemToCart: (item) => {
     set({ cart: [...get().cart, item] });
-  },
-  clearCart: () => {
-    set({
-      cart: [],
-    });
   },
   startNewPurchase: () => {
     set(newPurchase());

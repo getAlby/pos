@@ -7,7 +7,8 @@ import { Item } from "../../types";
 import useStore from "../../state/store";
 
 export function Items() {
-  const { amount, setAmount, cart, addItemToCart, clearCart } = useStore();
+  const { amount, setAmount, cart, addItemToCart, startNewPurchase } =
+    useStore();
   const [itemName, setItemName] = React.useState("");
   const [itemPrice, setItemPrice] = React.useState("");
   const [isSaving, setSaving] = React.useState(false);
@@ -78,7 +79,7 @@ export function Items() {
         {cart.length > 0 && (
           <button
             onClick={() => {
-              clearCart();
+              startNewPurchase();
             }}
             className="btn btn-error"
           >
