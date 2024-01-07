@@ -18,6 +18,10 @@ export function About() {
           homescreen!
         </p>
         <p>
+          After connecting to your wallet, bookmark the page to make sure you
+          don't lose it.
+        </p>
+        <p>
           Do you have any feature requests, issues or would like to
           contribute?&nbsp;
           <a

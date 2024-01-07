@@ -7,6 +7,8 @@ import { Pay } from "./pages/wallet/Pay";
 import { Paid } from "./pages/wallet/Paid";
 import { Share } from "./pages/wallet/Share";
 import { About } from "./pages/About";
+import { Profile } from "./pages/wallet/Profile";
+import { Items } from "./pages/wallet/Items";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             <Route path="pay/:invoice" Component={Pay} />
             <Route path="paid" Component={Paid} />
             <Route path="share" Component={Share} />
+            <Route path="profile" Component={Profile} />
+            <Route path="items" Component={Items} />
           </Route>
           <Route path="/about" Component={About} />
           <Route path="/*" Component={NotFound} />
