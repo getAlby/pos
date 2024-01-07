@@ -5,10 +5,10 @@ import react from "@vitejs/plugin-react-swc";
 const pwaConfig: Partial<VitePWAOptions> = {
   includeAssets: ["shortcut-icon.png", "icon.png", "icon.svg"],
   manifest: {
-    name: "BuzzPay",
+    name: "BuzzPay Simple",
     short_name: "BuzzPay",
     description: "Alby's super simple self-custodial PoS",
-    scope: "/pos/",
+    scope: "/pos-simple/",
     // start_url: "/pos/",
     background_color: "#FCE589",
     theme_color: "#FCE589",
@@ -26,7 +26,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA(pwaConfig)],
-  base: "/pos/",
+  base: "/pos-simple/",
   server: {
     host: "0.0.0.0",
   },
