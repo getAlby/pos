@@ -1,17 +1,24 @@
 import { Invoice } from "@getalby/lightning-tools";
-import { webln } from "@getalby/sdk";
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Backbar } from "../../components/Backbar";
+import { useProfileMetadata } from "../../hooks/useProfileMetadata";
+import { useProfilePubkey } from "../../hooks/useProfilePubkey";
+import useStore from "../../state/store";
 
 export function Pay() {
   const { invoice } = useParams();
   const navigate = useNavigate();
-  const provider = useOutletContext() as webln.NostrWebLNProvider;
+  const { cart, provider } = useStore();
   const [amount, setAmount] = useState(0);
+  const profileData = useProfilePubkey(provider?.publicKey);
+  const { metadata } = useProfileMetadata(profileData.profilePubkey);
 
   useEffect(() => {
+    if (!provider) {
+      return;
+    }
     if (invoice) {
       const inv = new Invoice({ pr: invoice });
       const { satoshi } = inv;
@@ -23,6 +30,7 @@ export function Pay() {
           paymentRequest: invoice,
         });
         if (response.paid) {
+          useStore.getState().startNewPurchase();
           navigate("../paid");
         }
       }, 3000);
@@ -42,7 +50,22 @@ export function Pay() {
       <Backbar />
       <div className="flex grow gap-5 flex-col justify-center items-center">
         <span className="text-4xl font-bold">{amount} sats</span>
-        <QRCodeSVG value={invoice} size={256} />
+        {metadata?.name && (
+          <span className="text-lg font-medium">to {metadata?.name}</span>
+        )}
+        {cart && (
+          // TODO: group cart items
+          <p>{cart.map((item) => item.name).join(", ")}</p>
+        )}
+        <div className="relative flex justify-center items-center">
+          <QRCodeSVG value={invoice} size={256} />
+          {metadata?.picture && (
+            <img
+              src={metadata.picture}
+              className="absolute w-[25%] h-[25%] rounded-full z-10 border-white border-4"
+            />
+          )}
+        </div>
         <p className="flex flex-row justify-center items-center gap-2 mb-4">
           <span className="loading loading-spinner text-primary"></span>
           Waiting for payment...

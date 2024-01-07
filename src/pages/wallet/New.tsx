@@ -1,13 +1,14 @@
-import { webln } from "@getalby/sdk";
 import React, { FormEvent } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/Navbar";
+import useStore from "../../state/store";
+import { MAX_MEMO_LENGTH } from "../../constants";
 
 export function New() {
-  const [amount, setAmount] = React.useState("");
+  const { amount, setAmount, cart } = useStore();
   const [isLoading, setLoading] = React.useState(false);
   const navigate = useNavigate();
-  const provider = useOutletContext() as webln.NostrWebLNProvider;
+  const provider = useStore((store) => store.provider);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -18,9 +19,19 @@ export function New() {
         throw new Error("Invalid amount: " + amountSats);
       }
 
-      const invoice = await provider.makeInvoice({
+      let memo = "";
+
+      if (cart.length) {
+        // TODO: group cart items
+        memo += cart.map((cart) => cart.name).join(", ");
+        memo += " - ";
+      }
+
+      memo += "Alby PoS";
+
+      const invoice = await provider?.makeInvoice({
         amount: amountSats,
-        defaultMemo: "Alby PoS",
+        defaultMemo: memo.substring(0, MAX_MEMO_LENGTH),
       });
       navigate(`../pay/${invoice.paymentRequest}`);
     } catch (error) {
@@ -47,7 +58,9 @@ export function New() {
               className="input input-ghost max-w-full text-center text-6xl p-16"
               placeholder="0"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                setAmount(e.target.value);
+              }}
             ></input>
           </div>
           <button
