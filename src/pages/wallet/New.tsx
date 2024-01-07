@@ -44,7 +44,7 @@ export function New() {
               type="number"
               inputMode="numeric"
               pattern="[0-9]*"
-              className="input input-ghost max-w-full text-center text-6xl"
+              className="input input-ghost max-w-full text-center text-6xl p-16"
               placeholder="0"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
