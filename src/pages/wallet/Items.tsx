@@ -121,6 +121,9 @@ export function Items() {
           ></input>
           <p>Price in sats</p>
           <input
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
             className="input input-bordered w-full"
             value={itemPrice}
             onChange={(e) => setItemPrice(e.target.value)}
