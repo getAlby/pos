@@ -8,12 +8,15 @@ import { useProfilePubkey } from '../../hooks/useProfilePubkey';
 import useStore from '../../state/store';
 
 export function Pay() {
-  const { clearCart } = useStore();
+  const [amount, setAmount] = useState(0);
+
   const { invoice } = useParams();
   const navigate = useNavigate();
+
   const { cart, provider } = useStore();
-  const [amount, setAmount] = useState(0);
-  const profileData = useProfilePubkey(provider?.publicKey);
+  const { clearCart } = useStore();
+
+  const profileData = useProfilePubkey();
   const { metadata } = useProfileMetadata(profileData.profilePubkey);
 
   useEffect(() => {
