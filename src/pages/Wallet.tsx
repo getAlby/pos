@@ -1,8 +1,8 @@
-import { webln } from "@getalby/sdk";
-import React from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { localStorageKeys } from "../constants";
-import useStore from "../state/store";
+import { webln } from '@getalby/sdk';
+import React from 'react';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { localStorageKeys } from '../constants';
+import useStore from '../state/store';
 
 export function Wallet() {
   const { nwcUrl } = useParams();
@@ -13,7 +13,7 @@ export function Wallet() {
     (async () => {
       if (nwcUrl) {
         try {
-          console.log("Enabling provider");
+          console.log('Enabling provider');
           const _provider = new webln.NostrWebLNProvider({
             nostrWalletConnectUrl: nwcUrl,
           });
@@ -25,14 +25,14 @@ export function Wallet() {
           window.localStorage.setItem(localStorageKeys.nwcUrl, nwcUrl);
         } catch (error) {
           console.error(error);
-          alert("Failed to load wallet: " + error);
+          alert('Failed to load wallet: ' + error);
         }
       }
     })();
   }, [nwcUrl]);
 
   if (!nwcUrl) {
-    navigate("/");
+    navigate('/');
     return null;
   }
 

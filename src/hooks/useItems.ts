@@ -1,7 +1,7 @@
-import { useSubscribe } from "nostr-hooks";
-import React from "react";
-import { RELAYS, appCustomDataTag, appCustomDataValues } from "../constants";
-import { Item } from "../types";
+import { useSubscribe } from 'nostr-hooks';
+import React from 'react';
+import { RELAYS, appCustomDataTag, appCustomDataValues } from '../constants';
+import { Item } from '../types';
 
 export function useItems(walletPubkey?: string) {
   const { events, invalidate, eose } = useSubscribe({
@@ -27,10 +27,7 @@ export function useItems(walletPubkey?: string) {
       // TODO: remove filter when above relay filter works
       events
         .filter((event) =>
-          event.tags.some(
-            (t) =>
-              t[0] === appCustomDataTag && t[1] === appCustomDataValues.item
-          )
+          event.tags.some((t) => t[0] === appCustomDataTag && t[1] === appCustomDataValues.item)
         )
         .map((event) => JSON.parse(event.content) as Item),
     [events]

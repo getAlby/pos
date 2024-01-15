@@ -1,7 +1,7 @@
-import { useSubscribe } from "nostr-hooks";
-import React from "react";
-import { RELAYS, appCustomDataTag, appCustomDataValues } from "../constants";
-import { nip19 } from "nostr-tools";
+import { useSubscribe } from 'nostr-hooks';
+import React from 'react';
+import { RELAYS, appCustomDataTag, appCustomDataValues } from '../constants';
+import { nip19 } from 'nostr-tools';
 
 export function useProfilePubkey(walletPubkey?: string) {
   const { events, invalidate, eose } = useSubscribe({
@@ -27,9 +27,7 @@ export function useProfilePubkey(walletPubkey?: string) {
       // TODO: remove filter when above relay filter works
       events.filter((event) =>
         event.tags.some(
-          (t) =>
-            t[0] === appCustomDataTag &&
-            t[1] === appCustomDataValues.profilePubkey
+          (t) => t[0] === appCustomDataTag && t[1] === appCustomDataValues.profilePubkey
         )
       )[0]?.content,
     [events]

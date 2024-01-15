@@ -1,20 +1,20 @@
-import React, { FormEvent } from "react";
-import { Backbar } from "../../components/Backbar";
-import { usePublish } from "nostr-hooks";
-import { RELAYS, appCustomDataTag, appCustomDataValues } from "../../constants";
-import { useProfilePubkey } from "../../hooks/useProfilePubkey";
-import { useProfileMetadata } from "../../hooks/useProfileMetadata";
-import { nip19 } from "nostr-tools";
-import useStore from "../../state/store";
+import React, { FormEvent } from 'react';
+import { Backbar } from '../../components/Backbar';
+import { usePublish } from 'nostr-hooks';
+import { RELAYS, appCustomDataTag, appCustomDataValues } from '../../constants';
+import { useProfilePubkey } from '../../hooks/useProfilePubkey';
+import { useProfileMetadata } from '../../hooks/useProfileMetadata';
+import { nip19 } from 'nostr-tools';
+import useStore from '../../state/store';
 
 export function Profile() {
-  const [npub, setNpub] = React.useState("");
+  const [npub, setNpub] = React.useState('');
   const [isSaving, setSaving] = React.useState(false);
   const provider = useStore((store) => store.provider);
 
   const publish = usePublish(RELAYS, provider?.secret);
 
-  console.log("NWC wallet pubkey", provider?.publicKey);
+  console.log('NWC wallet pubkey', provider?.publicKey);
   const profileData = useProfilePubkey(provider?.publicKey);
   const { metadata } = useProfileMetadata(profileData.profilePubkey);
 
@@ -37,14 +37,14 @@ export function Profile() {
         content: nip19.decode(npub).data as string,
         tags: [
           [appCustomDataTag, appCustomDataValues.profilePubkey],
-          ["d", "BuzzPay profile pubkey"],
+          ['d', 'BuzzPay profile pubkey'],
         ],
       });
-      console.log("Published", result);
+      console.log('Published', result);
       profileData.invalidate();
     } catch (error) {
       console.error(error);
-      alert("Failed to update profile: " + error);
+      alert('Failed to update profile: ' + error);
     } finally {
       setSaving(false);
     }
@@ -71,11 +71,11 @@ export function Profile() {
                 <>
                   {metadata ? (
                     <>
-                      <p>{metadata.name || "No name set"}</p>
+                      <p>{metadata.name || 'No name set'}</p>
                       <img src={metadata.picture} className="w-16 h-16" />
                     </>
                   ) : (
-                    `No profile metadata found in ${RELAYS.join(", ")}`
+                    `No profile metadata found in ${RELAYS.join(', ')}`
                   )}
                 </>
               )}

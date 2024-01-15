@@ -1,12 +1,12 @@
-import QRCode from "qrcode.react";
-import { useEffect, useState } from "react";
-import { Backbar } from "../../components/Backbar";
+import QRCode from 'qrcode.react';
+import { useEffect, useState } from 'react';
+import { Backbar } from '../../components/Backbar';
 
 export function Share() {
-  const [shareURI, setShareURI] = useState("");
+  const [shareURI, setShareURI] = useState('');
 
   useEffect(() => {
-    setShareURI(window.location.href.replace("/share", "/new"));
+    setShareURI(window.location.href.replace('/share', '/new'));
   }, []);
 
   return (

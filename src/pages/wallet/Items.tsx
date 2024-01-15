@@ -1,15 +1,15 @@
-import React, { FormEvent } from "react";
-import { Backbar } from "../../components/Backbar";
-import { usePublish } from "nostr-hooks";
-import { RELAYS, appCustomDataTag, appCustomDataValues } from "../../constants";
-import { useItems } from "../../hooks/useItems";
-import { Item } from "../../types";
-import useStore from "../../state/store";
+import React, { FormEvent } from 'react';
+import { Backbar } from '../../components/Backbar';
+import { usePublish } from 'nostr-hooks';
+import { RELAYS, appCustomDataTag, appCustomDataValues } from '../../constants';
+import { useItems } from '../../hooks/useItems';
+import { Item } from '../../types';
+import useStore from '../../state/store';
 
 export function Items() {
   const { cart, addItemToCart, removeItemFromCart, clearCart } = useStore();
-  const [itemName, setItemName] = React.useState("");
-  const [itemPrice, setItemPrice] = React.useState("");
+  const [itemName, setItemName] = React.useState('');
+  const [itemPrice, setItemPrice] = React.useState('');
   const [isSaving, setSaving] = React.useState(false);
   const provider = useStore((store) => store.provider);
   const publish = usePublish(RELAYS, provider?.secret);
@@ -31,21 +31,21 @@ export function Items() {
       };
 
       if (isNaN(item.price) || item.price < 1) {
-        throw new Error("Invalid item price");
+        throw new Error('Invalid item price');
       }
       const result = await publish({
         kind: 30078,
         content: JSON.stringify(item),
         tags: [
           [appCustomDataTag, appCustomDataValues.item],
-          ["d", "BuzzPay item - " + item.name],
+          ['d', 'BuzzPay item - ' + item.name],
         ],
       });
-      console.log("Published", result);
+      console.log('Published', result);
       itemsData.invalidate();
     } catch (error) {
       console.error(error);
-      alert("Failed to update profile: " + error);
+      alert('Failed to update profile: ' + error);
     } finally {
       setSaving(false);
     }
@@ -57,10 +57,7 @@ export function Items() {
       <div className="flex flex-1 flex-col w-full h-full justify-center items-center gap-4">
         <h1 className="text-lg">Cart</h1>
         {cart.map((item) => (
-          <div
-            key={item.name}
-            className="flex justify-center items-center gap-2"
-          >
+          <div key={item.name} className="flex justify-center items-center gap-2">
             <p className="flex-1">
               {item.name} - {item.price} sats ({item.quantity})
             </p>
@@ -102,9 +99,7 @@ export function Items() {
             className="btn btn-primary"
           >
             {item.name} - {item.price} sats (
-            {cart.find((cartItem) => cartItem.name === item.name)?.quantity ||
-              0}
-            )
+            {cart.find((cartItem) => cartItem.name === item.name)?.quantity || 0})
           </button>
         ))}
 

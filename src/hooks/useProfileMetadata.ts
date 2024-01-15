@@ -1,5 +1,5 @@
-import { useSubscribe } from "nostr-hooks";
-import { RELAYS } from "../constants";
+import { useSubscribe } from 'nostr-hooks';
+import { RELAYS } from '../constants';
 
 export function useProfileMetadata(profilePubkeyHex: string | undefined) {
   // console.log("Profile pubkey hex:", profilePubkeyHex);

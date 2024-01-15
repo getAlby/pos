@@ -1,5 +1,5 @@
-import { PopiconsArrowLeftDuotone } from "@popicons/react";
-import { To, useNavigate } from "react-router-dom";
+import { PopiconsArrowLeftDuotone } from '@popicons/react';
+import { To, useNavigate } from 'react-router-dom';
 
 type BackbarProps = {
   navigateTo?: string | -1;
@@ -12,7 +12,7 @@ export function Backbar({ navigateTo }: BackbarProps) {
       <div className="flex-none">
         <button
           className="btn btn-ghost m-1"
-          onClick={() => navigate((navigateTo as To) || "../new")}
+          onClick={() => navigate((navigateTo as To) || '../new')}
         >
           <PopiconsArrowLeftDuotone className="w-6 h-6" />
         </button>
