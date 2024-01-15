@@ -1,27 +1,26 @@
-import React, { FormEvent } from 'react';
+import { NDKEvent } from '@nostr-dev-kit/ndk';
+import { FormEvent, useState } from 'react';
+
 import { Backbar } from '../../components/Backbar';
-import { usePublish } from 'nostr-hooks';
-import { RELAYS, appCustomDataTag, appCustomDataValues } from '../../constants';
+import { appCustomDataTag, appCustomDataValues } from '../../constants';
 import { useItems } from '../../hooks/useItems';
-import { Item } from '../../types';
 import useStore from '../../state/store';
+import { Item } from '../../types';
 
 export function Items() {
-  const { cart, addItemToCart, removeItemFromCart, clearCart } = useStore();
-  const [itemName, setItemName] = React.useState('');
-  const [itemPrice, setItemPrice] = React.useState('');
-  const [isSaving, setSaving] = React.useState(false);
-  const provider = useStore((store) => store.provider);
-  const publish = usePublish(RELAYS, provider?.secret);
-  const itemsData = useItems(provider?.publicKey);
+  const [itemName, setItemName] = useState('');
+  const [itemPrice, setItemPrice] = useState('');
+  const [isSaving, setSaving] = useState(false);
+
+  const { cart, addItemToCart, removeItemFromCart, clearCart, ndk } = useStore();
+
+  const itemsData = useItems();
+
   const isLoading = itemsData.isLoading;
 
-  if (isLoading) {
-    return <p>Loading items...</p>;
-  }
-
-  async function onSubmit(e: FormEvent) {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
+
     try {
       setSaving(true);
 
@@ -33,22 +32,30 @@ export function Items() {
       if (isNaN(item.price) || item.price < 1) {
         throw new Error('Invalid item price');
       }
-      const result = await publish({
-        kind: 30078,
-        content: JSON.stringify(item),
-        tags: [
-          [appCustomDataTag, appCustomDataValues.item],
-          ['d', 'BuzzPay item - ' + item.name],
-        ],
+
+      const event = new NDKEvent(ndk);
+      event.created_at = Math.floor(Date.now() / 1000);
+      event.kind = 30078;
+      event.content = JSON.stringify(item);
+      event.tags = [
+        [appCustomDataTag, appCustomDataValues.item],
+        ['d', 'BuzzPay item - ' + item.name],
+      ];
+
+      event.publish().then(() => {
+        console.log('Published');
       });
-      console.log('Published', result);
-      itemsData.invalidate();
     } catch (error) {
       console.error(error);
+
       alert('Failed to update profile: ' + error);
     } finally {
       setSaving(false);
     }
+  };
+
+  if (isLoading) {
+    return <p>Loading items...</p>;
   }
 
   return (
