@@ -1,4 +1,6 @@
 import { webln } from '@getalby/sdk';
+import NDK, { NDKConstructorParams, NDKPrivateKeySigner } from '@nostr-dev-kit/ndk';
+import NDKCacheAdapterDexie from '@nostr-dev-kit/ndk-cache-dexie';
 import { create } from 'zustand';
 
 import { CartItem, Item } from '../types';
@@ -6,7 +8,7 @@ import { CartItem, Item } from '../types';
 interface State {
   readonly provider: webln.NostrWebLNProvider | undefined;
   readonly cart: CartItem[];
-  relays: string[];
+  ndk: NDK;
 }
 
 interface Actions {
@@ -18,19 +20,39 @@ interface Actions {
   removeRelay(relay: string): void;
 }
 
+const initialRelays = ['wss://relay.damus.io', 'wss://relay.shitforce.one'];
+const initialSigner = undefined;
+
+const initialNdkConstructorParams: NDKConstructorParams = {
+  cacheAdapter: new NDKCacheAdapterDexie({ dbName: 'ndk-cache' }),
+  explicitRelayUrls: initialRelays,
+  signer: initialSigner,
+  autoConnectUserRelays: false,
+  autoFetchUserMutelist: false,
+};
+
 const useStore = create<State & Actions>((set, get) => ({
   provider: undefined,
   cart: [],
-  relays: ['wss://relay.damus.io', 'wss://relay.shitforce.one'],
+  ndk: new NDK(initialNdkConstructorParams),
 
   setProvider: (provider) => {
-    set({ provider });
+    set((state) => ({
+      provider,
+      ndk: new NDK({
+        ...state.ndk,
+        signer: new NDKPrivateKeySigner(provider?.secret),
+      }),
+    }));
   },
+
   addItemToCart: (item) => {
     const currentCart = get().cart;
     const existingItem = currentCart.find((existing) => existing.name === item.name);
+
     if (existingItem) {
       const existingItemIndex = currentCart.indexOf(existingItem);
+
       set({
         cart: [
           ...currentCart.slice(0, existingItemIndex),
@@ -44,14 +66,18 @@ const useStore = create<State & Actions>((set, get) => ({
       });
     }
   },
+
   removeItemFromCart: (item) => {
     const currentCart = get().cart;
     const existingItem = currentCart.find((existing) => existing.name === item.name);
+
     if (!existingItem) {
       return;
     }
+
     if (existingItem.quantity > 1) {
       const existingItemIndex = currentCart.indexOf(existingItem);
+
       set({
         cart: [
           ...currentCart.slice(0, existingItemIndex),
@@ -65,25 +91,44 @@ const useStore = create<State & Actions>((set, get) => ({
       });
     }
   },
+
   clearCart: () => {
     set({
       cart: [],
     });
   },
+
   addRelay: (relay) => {
-    const relays = get().relays;
+    set((state) => {
+      const currentRelays = state.ndk.explicitRelayUrls || [];
 
-    if (relays.includes(relay)) {
-      return;
-    }
+      if (currentRelays.includes(relay)) {
+        return state;
+      }
 
-    set({
-      relays: [...relays, relay],
+      return {
+        ndk: new NDK({
+          ...state.ndk,
+          explicitRelayUrls: [...currentRelays, relay],
+        }),
+      };
     });
   },
+
   removeRelay: (relay) => {
-    set({
-      relays: get().relays.filter((r) => r != relay),
+    set((state) => {
+      const currentRelays = state.ndk.explicitRelayUrls || [];
+
+      if (!currentRelays.includes(relay)) {
+        return state;
+      }
+
+      return {
+        ndk: new NDK({
+          ...state.ndk,
+          explicitRelayUrls: currentRelays.filter((r) => r != relay),
+        }),
+      };
     });
   },
 }));
