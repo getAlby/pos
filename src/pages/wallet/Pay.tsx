@@ -8,12 +8,15 @@ import { useProfilePubkey } from "../../hooks/useProfilePubkey";
 import useStore from "../../state/store";
 
 export function Pay() {
-  const { clearCart } = useStore();
+  const [amount, setAmount] = useState(0);
+
   const { invoice } = useParams();
   const navigate = useNavigate();
+
   const { cart, provider } = useStore();
-  const [amount, setAmount] = useState(0);
-  const profileData = useProfilePubkey(provider?.publicKey);
+  const { clearCart } = useStore();
+
+  const profileData = useProfilePubkey();
   const { metadata } = useProfileMetadata(profileData.profilePubkey);
 
   useEffect(() => {
@@ -50,18 +53,16 @@ export function Pay() {
       <Backbar />
       <div className="flex grow gap-5 flex-col justify-center items-center">
         <span className="text-4xl font-bold">{amount} sats</span>
-        {metadata?.name && (
-          <span className="text-lg font-medium">to {metadata?.name}</span>
-        )}
+        {metadata?.name && <span className="text-lg font-medium">to {metadata?.name}</span>}
         {cart && (
           // TODO: group cart items
           <p>{cart.map((item) => item.name).join(", ")}</p>
         )}
         <div className="relative flex justify-center items-center">
           <QRCodeSVG value={invoice} size={256} />
-          {metadata?.picture && (
+          {metadata?.image && (
             <img
-              src={metadata.picture}
+              src={metadata.image}
               className="absolute w-[25%] h-[25%] rounded-full z-10 border-white border-4"
             />
           )}

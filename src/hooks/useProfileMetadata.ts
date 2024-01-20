@@ -1,32 +1,31 @@
-import { useSubscribe } from "nostr-hooks";
-import { RELAYS } from "../constants";
+import { NDKUserProfile } from "@nostr-dev-kit/ndk";
+import { useEffect, useState } from "react";
 
-export function useProfileMetadata(profilePubkeyHex: string | undefined) {
-  // console.log("Profile pubkey hex:", profilePubkeyHex);
-  const { events, eose } = useSubscribe({
-    relays: RELAYS,
-    filters: profilePubkeyHex
-      ? [
-          {
-            authors: [profilePubkeyHex],
-            kinds: [0],
-            limit: 1,
-          },
-        ]
-      : [],
-    options: {
-      enabled: !!profilePubkeyHex,
-    },
-  });
+import useStore from "../state/store";
 
-  const isLoading = !eose && !events.length;
-  const metadataEvent = events?.[0];
-  const metadata = metadataEvent
-    ? (JSON.parse(metadataEvent.content) as {
-        name?: string;
-        picture?: string;
+export function useProfileMetadata(pubkey: string | undefined) {
+  const [metadata, setMetadata] = useState<NDKUserProfile | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const ndk = useStore((store) => store.ndk);
+
+  useEffect(() => {
+    if (!pubkey || !ndk) {
+      return;
+    }
+
+    ndk
+      .getUser({ pubkey })
+      .fetchProfile()
+      .then((profile) => {
+        if (profile) {
+          setMetadata(profile);
+        }
       })
-    : undefined;
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [ndk, pubkey, setMetadata]);
 
   // console.log("Profile metadata", metadata, eose, events);
 

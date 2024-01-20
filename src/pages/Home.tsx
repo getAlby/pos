@@ -40,9 +40,7 @@ export function Home() {
         <div className="flex flex-1 flex-col justify-center items-center max-w-lg">
           <BuzzPay className="mb-8" />
 
-          <p className="text-center mb-24">
-            Point-of-Sale for bitcoin lightning payments
-          </p>
+          <p className="text-center mb-24">Point-of-Sale for bitcoin lightning payments</p>
           <Button
             onConnected={async (provider) => {
               try {
@@ -59,27 +57,18 @@ export function Home() {
                   );
                 }
                 if (!(provider instanceof WebLNProviders.NostrWebLNProvider)) {
-                  throw new Error(
-                    "WebLN provider is not an instance of NostrWebLNProvider"
-                  );
+                  throw new Error("WebLN provider is not an instance of NostrWebLNProvider");
                 }
                 // TODO: below line should not be needed when modal is updated to close automatically after connecting
                 closeModal();
-                navigate(
-                  `/wallet/${encodeURIComponent(
-                    provider.nostrWalletConnectUrl
-                  )}/new`
-                );
+                navigate(`/wallet/${encodeURIComponent(provider.nostrWalletConnectUrl)}/new`);
               } catch (error) {
                 console.error(error);
                 alert(error);
               }
             }}
           />
-          <button
-            className="btn btn-outline mt-8 btn-sm btn-secondary"
-            onClick={importWallet}
-          >
+          <button className="btn btn-outline mt-8 btn-sm btn-secondary" onClick={importWallet}>
             Import wallet URL
           </button>
         </div>

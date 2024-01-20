@@ -2,8 +2,6 @@ export const localStorageKeys = {
   nwcUrl: "pos:nwcUrl",
 };
 
-// TODO: allow dynamic list of relays
-export const RELAYS = ["wss://relay.damus.io", "wss://relay.shitforce.one"];
 export const appCustomDataTag = "buzzpay";
 export const appCustomDataValues = {
   profilePubkey: "profilePubkey",

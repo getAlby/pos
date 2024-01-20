@@ -1,54 +1,60 @@
-import React, { FormEvent } from "react";
-import { Backbar } from "../../components/Backbar";
-import { usePublish } from "nostr-hooks";
-import { RELAYS, appCustomDataTag, appCustomDataValues } from "../../constants";
-import { useProfilePubkey } from "../../hooks/useProfilePubkey";
-import { useProfileMetadata } from "../../hooks/useProfileMetadata";
+import { NDKEvent } from "@nostr-dev-kit/ndk";
 import { nip19 } from "nostr-tools";
+import { FormEvent, useEffect, useState } from "react";
+
+import { Backbar } from "../../components/Backbar";
+import { appCustomDataTag, appCustomDataValues } from "../../constants";
+import { useProfileMetadata } from "../../hooks/useProfileMetadata";
+import { useProfilePubkey } from "../../hooks/useProfilePubkey";
 import useStore from "../../state/store";
 
 export function Profile() {
-  const [npub, setNpub] = React.useState("");
-  const [isSaving, setSaving] = React.useState(false);
-  const provider = useStore((store) => store.provider);
+  const [npub, setNpub] = useState("");
+  const [isSaving, setSaving] = useState(false);
 
-  const publish = usePublish(RELAYS, provider?.secret);
+  const ndk = useStore((store) => store.ndk);
 
-  console.log("NWC wallet pubkey", provider?.publicKey);
-  const profileData = useProfilePubkey(provider?.publicKey);
+  const profileData = useProfilePubkey();
   const { metadata } = useProfileMetadata(profileData.profilePubkey);
 
-  React.useEffect(() => {
+  const isLoading = profileData.isLoading;
+  const relays = ndk?.explicitRelayUrls || [];
+
+  useEffect(() => {
     if (npub || !profileData.npub) {
       return;
     }
+
     setNpub(profileData.npub);
   }, [profileData, npub]);
 
-  const isLoading = profileData.isLoading;
-
-  async function onSubmit(e: FormEvent) {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    try {
-      setSaving(true);
 
-      const result = await publish({
-        kind: 30078,
-        content: nip19.decode(npub).data as string,
-        tags: [
+    (async () => {
+      try {
+        setSaving(true);
+
+        const event = new NDKEvent(ndk);
+        event.created_at = Math.floor(Date.now() / 1000);
+        event.kind = 30078;
+        event.content = nip19.decode(npub).data as string;
+        event.tags = [
           [appCustomDataTag, appCustomDataValues.profilePubkey],
           ["d", "BuzzPay profile pubkey"],
-        ],
-      });
-      console.log("Published", result);
-      profileData.invalidate();
-    } catch (error) {
-      console.error(error);
-      alert("Failed to update profile: " + error);
-    } finally {
-      setSaving(false);
-    }
-  }
+        ];
+
+        const publishedRelays = await event.publish();
+        console.log("Published to relays", event, publishedRelays);
+      } catch (error) {
+        console.error(error);
+
+        alert("Failed to update profile: " + error);
+      } finally {
+        setSaving(false);
+      }
+    })();
+  };
 
   return (
     <>
@@ -72,10 +78,10 @@ export function Profile() {
                   {metadata ? (
                     <>
                       <p>{metadata.name || "No name set"}</p>
-                      <img src={metadata.picture} className="w-16 h-16" />
+                      <img src={metadata.image} className="w-16 h-16" />
                     </>
                   ) : (
-                    `No profile metadata found in ${RELAYS.join(", ")}`
+                    `No profile metadata found in ${relays.join(", ")}`
                   )}
                 </>
               )}

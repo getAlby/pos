@@ -35,8 +35,7 @@ export function Navbar({ onOpenCart }: NavbarProps) {
             </li>
             <li>
               <Link to="../share">
-                <PopiconsShareDuotone className="w-4 h-4" /> Share with a
-                co-worker
+                <PopiconsShareDuotone className="w-4 h-4" /> Share with a co-worker
               </Link>
             </li>
             <li>
@@ -53,11 +52,7 @@ export function Navbar({ onOpenCart }: NavbarProps) {
               <Link
                 to="/"
                 onClick={(e) => {
-                  if (
-                    !confirm(
-                      "Are you sure you wish to log out? your wallet will be lost."
-                    )
-                  ) {
+                  if (!confirm("Are you sure you wish to log out? your wallet will be lost.")) {
                     e.preventDefault();
                     return;
                   }

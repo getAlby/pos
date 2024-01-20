@@ -7,14 +7,16 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@getalby/bitcoin-connect-react": "^3.2.0-beta.0",
     "@getalby/lightning-tools": "^5.0.0",
     "@getalby/sdk": "^3.2.2",
+    "@nostr-dev-kit/ndk": "^2.3.2",
+    "@nostr-dev-kit/ndk-cache-dexie": "^2.2.3",
     "@popicons/react": "^0.0.8",
-    "nostr-hooks": "^1.8.2",
     "nostr-tools": "1.17.0",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
@@ -34,6 +36,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.32",
+    "prettier": "3.2.2",
     "tailwindcss": "^3.3.6",
     "typescript": "^5.2.2",
     "vite": "^5.0.10",
