@@ -1,9 +1,9 @@
-import { NDKEvent, NDKFilter } from '@nostr-dev-kit/ndk';
-import { nip19 } from 'nostr-tools';
-import { useEffect, useMemo, useState } from 'react';
+import { NDKEvent, NDKFilter } from "@nostr-dev-kit/ndk";
+import { nip19 } from "nostr-tools";
+import { useEffect, useMemo, useState } from "react";
 
-import { appCustomDataTag, appCustomDataValues } from '../constants';
-import useStore from '../state/store';
+import { appCustomDataTag, appCustomDataValues } from "../constants";
+import useStore from "../state/store";
 
 export function useProfilePubkey() {
   const [events, setEvents] = useState<NDKEvent[]>([]);
@@ -31,7 +31,7 @@ export function useProfilePubkey() {
 
     const subscription = ndk.subscribe(filters);
 
-    subscription.on('event', (event: NDKEvent) => {
+    subscription.on("event", (event: NDKEvent) => {
       setEvents((prevEvents) =>
         prevEvents.some((existingEvent) => existingEvent.id === event.id)
           ? prevEvents
@@ -39,7 +39,7 @@ export function useProfilePubkey() {
       );
     });
 
-    subscription.on('eose', () => {
+    subscription.on("eose", () => {
       setEose(true);
     });
   }, [ndk, walletPubkey, setEvents]);

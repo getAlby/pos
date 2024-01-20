@@ -1,15 +1,15 @@
-import { NDKEvent } from '@nostr-dev-kit/ndk';
-import { FormEvent, useState } from 'react';
+import { NDKEvent } from "@nostr-dev-kit/ndk";
+import { FormEvent, useState } from "react";
 
-import { Backbar } from '../../components/Backbar';
-import { appCustomDataTag, appCustomDataValues } from '../../constants';
-import { useItems } from '../../hooks/useItems';
-import useStore from '../../state/store';
-import { Item } from '../../types';
+import { Backbar } from "../../components/Backbar";
+import { appCustomDataTag, appCustomDataValues } from "../../constants";
+import { useItems } from "../../hooks/useItems";
+import useStore from "../../state/store";
+import { Item } from "../../types";
 
 export function Items() {
-  const [itemName, setItemName] = useState('');
-  const [itemPrice, setItemPrice] = useState('');
+  const [itemName, setItemName] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
   const [isSaving, setSaving] = useState(false);
 
   const { cart, addItemToCart, removeItemFromCart, clearCart, ndk } = useStore();
@@ -31,7 +31,7 @@ export function Items() {
         };
 
         if (isNaN(item.price) || item.price < 1) {
-          throw new Error('Invalid item price');
+          throw new Error("Invalid item price");
         }
 
         const event = new NDKEvent(ndk);
@@ -40,15 +40,15 @@ export function Items() {
         event.content = JSON.stringify(item);
         event.tags = [
           [appCustomDataTag, appCustomDataValues.item],
-          ['d', 'BuzzPay item - ' + item.name],
+          ["d", "BuzzPay item - " + item.name],
         ];
 
         const publishedRelays = await event.publish();
-        console.log('Published to relays', publishedRelays);
+        console.log("Published to relays", publishedRelays);
       } catch (error) {
         console.error(error);
 
-        alert('Failed to update profile: ' + error);
+        alert("Failed to update profile: " + error);
       } finally {
         setSaving(false);
       }

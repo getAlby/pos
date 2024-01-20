@@ -1,9 +1,9 @@
-import { webln } from '@getalby/sdk';
-import NDK, { NDKPrivateKeySigner } from '@nostr-dev-kit/ndk';
-import NDKCacheAdapterDexie from '@nostr-dev-kit/ndk-cache-dexie';
-import { create } from 'zustand';
+import { webln } from "@getalby/sdk";
+import NDK, { NDKPrivateKeySigner } from "@nostr-dev-kit/ndk";
+import NDKCacheAdapterDexie from "@nostr-dev-kit/ndk-cache-dexie";
+import { create } from "zustand";
 
-import { CartItem, Item } from '../types';
+import { CartItem, Item } from "../types";
 
 interface State {
   readonly provider: webln.NostrWebLNProvider | undefined;
@@ -18,7 +18,7 @@ interface Actions {
   clearCart(): void;
 }
 
-const initialRelays = ['wss://relay.damus.io', 'wss://relay.shitforce.one'];
+const initialRelays = ["wss://relay.damus.io", "wss://relay.shitforce.one"];
 
 const useStore = create<State & Actions>((set, get) => ({
   provider: undefined,
@@ -29,7 +29,7 @@ const useStore = create<State & Actions>((set, get) => ({
     let ndk: NDK | undefined;
     if (provider) {
       ndk = new NDK({
-        cacheAdapter: new NDKCacheAdapterDexie({ dbName: 'ndk-cache' }),
+        cacheAdapter: new NDKCacheAdapterDexie({ dbName: "ndk-cache" }),
         explicitRelayUrls: initialRelays,
         autoConnectUserRelays: false,
         autoFetchUserMutelist: false,

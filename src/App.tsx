@@ -1,14 +1,14 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Wallet } from './pages/Wallet';
-import { NotFound } from './pages/NotFound';
-import { New } from './pages/wallet/New';
-import { Pay } from './pages/wallet/Pay';
-import { Paid } from './pages/wallet/Paid';
-import { Share } from './pages/wallet/Share';
-import { About } from './pages/About';
-import { Profile } from './pages/wallet/Profile';
-import { Items } from './pages/wallet/Items';
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Wallet } from "./pages/Wallet";
+import { NotFound } from "./pages/NotFound";
+import { New } from "./pages/wallet/New";
+import { Pay } from "./pages/wallet/Pay";
+import { Paid } from "./pages/wallet/Paid";
+import { Share } from "./pages/wallet/Share";
+import { About } from "./pages/About";
+import { Profile } from "./pages/wallet/Profile";
+import { Items } from "./pages/wallet/Items";
 
 function App() {
   return (

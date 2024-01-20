@@ -1,5 +1,5 @@
-import { Backbar } from '../components/Backbar';
-import { Footer } from '../components/Footer';
+import { Backbar } from "../components/Backbar";
+import { Footer } from "../components/Footer";
 
 export function About() {
   return (

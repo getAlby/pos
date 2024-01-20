@@ -1,11 +1,11 @@
-import { Invoice } from '@getalby/lightning-tools';
-import { QRCodeSVG } from 'qrcode.react';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Backbar } from '../../components/Backbar';
-import { useProfileMetadata } from '../../hooks/useProfileMetadata';
-import { useProfilePubkey } from '../../hooks/useProfilePubkey';
-import useStore from '../../state/store';
+import { Invoice } from "@getalby/lightning-tools";
+import { QRCodeSVG } from "qrcode.react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Backbar } from "../../components/Backbar";
+import { useProfileMetadata } from "../../hooks/useProfileMetadata";
+import { useProfilePubkey } from "../../hooks/useProfilePubkey";
+import useStore from "../../state/store";
 
 export function Pay() {
   const [amount, setAmount] = useState(0);
@@ -29,13 +29,13 @@ export function Pay() {
       setAmount(satoshi);
 
       const interval = setInterval(async () => {
-        console.log('Checking invoice', invoice);
+        console.log("Checking invoice", invoice);
         const response = await provider.lookupInvoice({
           paymentRequest: invoice,
         });
         if (response.paid) {
           useStore.getState().clearCart();
-          navigate('../paid');
+          navigate("../paid");
         }
       }, 3000);
       return () => {
@@ -56,7 +56,7 @@ export function Pay() {
         {metadata?.name && <span className="text-lg font-medium">to {metadata?.name}</span>}
         {cart && (
           // TODO: group cart items
-          <p>{cart.map((item) => item.name).join(', ')}</p>
+          <p>{cart.map((item) => item.name).join(", ")}</p>
         )}
         <div className="relative flex justify-center items-center">
           <QRCodeSVG value={invoice} size={256} />
@@ -74,7 +74,7 @@ export function Pay() {
         <button
           onClick={() => {
             clearCart();
-            navigate('../new');
+            navigate("../new");
           }}
           className="btn"
         >

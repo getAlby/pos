@@ -1,9 +1,9 @@
-import { NDKEvent, NDKFilter } from '@nostr-dev-kit/ndk';
-import { useEffect, useMemo, useState } from 'react';
+import { NDKEvent, NDKFilter } from "@nostr-dev-kit/ndk";
+import { useEffect, useMemo, useState } from "react";
 
-import { appCustomDataTag, appCustomDataValues } from '../constants';
-import useStore from '../state/store';
-import { Item } from '../types';
+import { appCustomDataTag, appCustomDataValues } from "../constants";
+import useStore from "../state/store";
+import { Item } from "../types";
 
 export function useItems() {
   const [events, setEvents] = useState<NDKEvent[]>([]);
@@ -31,7 +31,7 @@ export function useItems() {
 
     const subscription = ndk.subscribe(filters);
 
-    subscription.on('event', (event) => {
+    subscription.on("event", (event) => {
       setEvents((prevEvents) =>
         prevEvents.some((existingEvent) => existingEvent.id === event.id)
           ? prevEvents
@@ -39,7 +39,7 @@ export function useItems() {
       );
     });
 
-    subscription.on('eose', () => {
+    subscription.on("eose", () => {
       setEose(true);
     });
   }, [ndk, walletPubkey, setEvents]);

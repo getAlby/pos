@@ -1,4 +1,4 @@
-import { AlbyLogo } from '../components/icons/AlbyLogo';
+import { AlbyLogo } from "../components/icons/AlbyLogo";
 
 export function Footer() {
   return (

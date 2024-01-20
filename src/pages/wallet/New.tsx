@@ -1,12 +1,12 @@
-import React, { FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Navbar } from '../../components/Navbar';
-import useStore from '../../state/store';
-import { MAX_MEMO_LENGTH } from '../../constants';
+import React, { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { Navbar } from "../../components/Navbar";
+import useStore from "../../state/store";
+import { MAX_MEMO_LENGTH } from "../../constants";
 
 export function New() {
-  const [amount, setAmount] = React.useState('');
-  const [label, setLabel] = React.useState('');
+  const [amount, setAmount] = React.useState("");
+  const [label, setLabel] = React.useState("");
   const { cart, addItemToCart } = useStore();
   const [isLoading, setLoading] = React.useState(false);
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export function New() {
   function convertCurrentEntryToCartItem() {
     if (amount) {
       const findFreeLabel = () => {
-        const labelPrefix = 'Item ';
+        const labelPrefix = "Item ";
         let index = 0;
         let freeLabel: string;
         do {
@@ -40,15 +40,15 @@ export function New() {
 
       const finalCart = useStore.getState().cart;
       if (!finalCart.length) {
-        throw new Error('Empty cart');
+        throw new Error("Empty cart");
       }
-      let memo = '';
+      let memo = "";
 
       // TODO: group cart items
-      memo += finalCart.map((item) => item.name).join(', ');
-      memo += ' - ';
+      memo += finalCart.map((item) => item.name).join(", ");
+      memo += " - ";
 
-      memo += 'BuzzPay';
+      memo += "BuzzPay";
 
       const totalAmount = finalCart
         .map((cart) => cart.price * cart.quantity)
@@ -61,7 +61,7 @@ export function New() {
       navigate(`../pay/${invoice.paymentRequest}`);
     } catch (error) {
       console.error(error);
-      alert('Failed to create invoice: ' + error);
+      alert("Failed to create invoice: " + error);
       setLoading(false);
     }
   }
@@ -90,13 +90,13 @@ export function New() {
             <button
               type="button"
               onClick={() => {
-                const newLabel = prompt('Label', label);
+                const newLabel = prompt("Label", label);
                 if (newLabel) {
                   setLabel(newLabel);
                 }
               }}
             >
-              {label || '+ Add label'}
+              {label || "+ Add label"}
             </button>
           </div>
           <button
@@ -104,10 +104,10 @@ export function New() {
             type="submit"
             disabled={isLoading || (!amount && !cart.length)}
           >
-            Charge{' '}
+            Charge{" "}
             {cart
               .map((cart) => cart.price * cart.quantity)
-              .reduce((a, b) => a + b, parseInt(amount || '0'))}{' '}
+              .reduce((a, b) => a + b, parseInt(amount || "0"))}{" "}
             sats
             {isLoading && <span className="loading loading-spinner"></span>}
           </button>

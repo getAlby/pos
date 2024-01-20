@@ -1,7 +1,7 @@
-import { NDKUserProfile } from '@nostr-dev-kit/ndk';
-import { useEffect, useState } from 'react';
+import { NDKUserProfile } from "@nostr-dev-kit/ndk";
+import { useEffect, useState } from "react";
 
-import useStore from '../state/store';
+import useStore from "../state/store";
 
 export function useProfileMetadata(pubkey: string | undefined) {
   const [metadata, setMetadata] = useState<NDKUserProfile | undefined>(undefined);

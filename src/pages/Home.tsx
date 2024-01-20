@@ -4,29 +4,29 @@ import {
   disconnect,
   init,
   WebLNProviders,
-} from '@getalby/bitcoin-connect-react';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { BuzzPay } from '../components/icons/BuzzPay';
-import { localStorageKeys } from '../constants';
-import { Footer } from '../components/Footer';
+} from "@getalby/bitcoin-connect-react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { BuzzPay } from "../components/icons/BuzzPay";
+import { localStorageKeys } from "../constants";
+import { Footer } from "../components/Footer";
 
 export function Home() {
   const navigate = useNavigate();
   React.useEffect(() => {
     const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
     if (nwcUrl) {
-      console.log('Restoring wallet URL', nwcUrl);
+      console.log("Restoring wallet URL", nwcUrl);
       navigate(`/wallet/${encodeURIComponent(nwcUrl)}/new`);
     }
 
     init({
-      filters: ['nwc'],
+      filters: ["nwc"],
       showBalance: false,
       providerConfig: {
         nwc: {
           authorizationUrlOptions: {
-            requestMethods: ['get_info', 'make_invoice', 'lookup_invoice'],
+            requestMethods: ["get_info", "make_invoice", "lookup_invoice"],
           },
         },
       },
@@ -47,17 +47,17 @@ export function Home() {
                 const info = await provider.getInfo();
                 if (
                   info.methods.length > 3 ||
-                  info.methods.indexOf('makeInvoice') < 0 ||
-                  info.methods.indexOf('lookupInvoice') < 0 ||
-                  info.methods.indexOf('getInfo') < 0
+                  info.methods.indexOf("makeInvoice") < 0 ||
+                  info.methods.indexOf("lookupInvoice") < 0 ||
+                  info.methods.indexOf("getInfo") < 0
                 ) {
                   throw new Error(
-                    'This provider must support exactly NWC getInfo, makeInvoice and lookupInvoice. Supports: ' +
-                      info.methods.join(',')
+                    "This provider must support exactly NWC getInfo, makeInvoice and lookupInvoice. Supports: " +
+                      info.methods.join(",")
                   );
                 }
                 if (!(provider instanceof WebLNProviders.NostrWebLNProvider)) {
-                  throw new Error('WebLN provider is not an instance of NostrWebLNProvider');
+                  throw new Error("WebLN provider is not an instance of NostrWebLNProvider");
                 }
                 // TODO: below line should not be needed when modal is updated to close automatically after connecting
                 closeModal();
@@ -81,7 +81,7 @@ export function Home() {
 // Needed on iOS because PWA localStorage is not shared with Safari.
 // PWA can only be installed with a static URL (e.g. "/pos/").
 function importWallet() {
-  const url = prompt('Copy wallet URL from your browser');
+  const url = prompt("Copy wallet URL from your browser");
   if (url) {
     window.location.href = url;
   }

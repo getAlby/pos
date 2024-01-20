@@ -1,15 +1,15 @@
-import { NDKEvent } from '@nostr-dev-kit/ndk';
-import { nip19 } from 'nostr-tools';
-import { FormEvent, useEffect, useState } from 'react';
+import { NDKEvent } from "@nostr-dev-kit/ndk";
+import { nip19 } from "nostr-tools";
+import { FormEvent, useEffect, useState } from "react";
 
-import { Backbar } from '../../components/Backbar';
-import { appCustomDataTag, appCustomDataValues } from '../../constants';
-import { useProfileMetadata } from '../../hooks/useProfileMetadata';
-import { useProfilePubkey } from '../../hooks/useProfilePubkey';
-import useStore from '../../state/store';
+import { Backbar } from "../../components/Backbar";
+import { appCustomDataTag, appCustomDataValues } from "../../constants";
+import { useProfileMetadata } from "../../hooks/useProfileMetadata";
+import { useProfilePubkey } from "../../hooks/useProfilePubkey";
+import useStore from "../../state/store";
 
 export function Profile() {
-  const [npub, setNpub] = useState('');
+  const [npub, setNpub] = useState("");
   const [isSaving, setSaving] = useState(false);
 
   const ndk = useStore((store) => store.ndk);
@@ -41,15 +41,15 @@ export function Profile() {
         event.content = nip19.decode(npub).data as string;
         event.tags = [
           [appCustomDataTag, appCustomDataValues.profilePubkey],
-          ['d', 'BuzzPay profile pubkey'],
+          ["d", "BuzzPay profile pubkey"],
         ];
 
         const publishedRelays = await event.publish();
-        console.log('Published to relays', event, publishedRelays);
+        console.log("Published to relays", event, publishedRelays);
       } catch (error) {
         console.error(error);
 
-        alert('Failed to update profile: ' + error);
+        alert("Failed to update profile: " + error);
       } finally {
         setSaving(false);
       }
@@ -77,11 +77,11 @@ export function Profile() {
                 <>
                   {metadata ? (
                     <>
-                      <p>{metadata.name || 'No name set'}</p>
+                      <p>{metadata.name || "No name set"}</p>
                       <img src={metadata.image} className="w-16 h-16" />
                     </>
                   ) : (
-                    `No profile metadata found in ${relays.join(', ')}`
+                    `No profile metadata found in ${relays.join(", ")}`
                   )}
                 </>
               )}

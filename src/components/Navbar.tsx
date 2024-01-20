@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { BuzzPay } from './icons/BuzzPay';
+import { Link } from "react-router-dom";
+import { BuzzPay } from "./icons/BuzzPay";
 import {
   PopiconsCartDuotone,
   PopiconsShareDuotone,
@@ -7,9 +7,9 @@ import {
   PopiconsLogoutDuotone,
   PopiconsBulbDuotone,
   PopiconsFaceSmileDuotone,
-} from '@popicons/react';
-import { localStorageKeys } from '../constants';
-import useStore from '../state/store';
+} from "@popicons/react";
+import { localStorageKeys } from "../constants";
+import useStore from "../state/store";
 
 type NavbarProps = {
   onOpenCart?: () => void;
@@ -52,7 +52,7 @@ export function Navbar({ onOpenCart }: NavbarProps) {
               <Link
                 to="/"
                 onClick={(e) => {
-                  if (!confirm('Are you sure you wish to log out? your wallet will be lost.')) {
+                  if (!confirm("Are you sure you wish to log out? your wallet will be lost.")) {
                     e.preventDefault();
                     return;
                   }
