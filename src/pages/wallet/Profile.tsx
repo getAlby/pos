@@ -12,16 +12,13 @@ export function Profile() {
   const [npub, setNpub] = useState('');
   const [isSaving, setSaving] = useState(false);
 
-  const provider = useStore((store) => store.provider); // TODO: useless here
   const ndk = useStore((store) => store.ndk);
-
-  console.log('NWC wallet pubkey', provider?.publicKey);
 
   const profileData = useProfilePubkey();
   const { metadata } = useProfileMetadata(profileData.profilePubkey);
 
   const isLoading = profileData.isLoading;
-  const relays = ndk.explicitRelayUrls || [];
+  const relays = ndk?.explicitRelayUrls || [];
 
   useEffect(() => {
     if (npub || !profileData.npub) {
@@ -34,28 +31,29 @@ export function Profile() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    try {
-      setSaving(true);
+    (async () => {
+      try {
+        setSaving(true);
 
-      const event = new NDKEvent(ndk);
-      event.created_at = Math.floor(Date.now() / 1000);
-      event.kind = 30078;
-      event.content = nip19.decode(npub).data as string;
-      event.tags = [
-        [appCustomDataTag, appCustomDataValues.profilePubkey],
-        ['d', 'BuzzPay profile pubkey'],
-      ];
+        const event = new NDKEvent(ndk);
+        event.created_at = Math.floor(Date.now() / 1000);
+        event.kind = 30078;
+        event.content = nip19.decode(npub).data as string;
+        event.tags = [
+          [appCustomDataTag, appCustomDataValues.profilePubkey],
+          ['d', 'BuzzPay profile pubkey'],
+        ];
 
-      event.publish().then(() => {
-        console.log('Published');
-      });
-    } catch (error) {
-      console.error(error);
+        const publishedRelays = await event.publish();
+        console.log('Published to relays', event, publishedRelays);
+      } catch (error) {
+        console.error(error);
 
-      alert('Failed to update profile: ' + error);
-    } finally {
-      setSaving(false);
-    }
+        alert('Failed to update profile: ' + error);
+      } finally {
+        setSaving(false);
+      }
+    })();
   };
 
   return (
@@ -80,7 +78,7 @@ export function Profile() {
                   {metadata ? (
                     <>
                       <p>{metadata.name || 'No name set'}</p>
-                      <img src={metadata.picture} className="w-16 h-16" />
+                      <img src={metadata.image} className="w-16 h-16" />
                     </>
                   ) : (
                     `No profile metadata found in ${relays.join(', ')}`

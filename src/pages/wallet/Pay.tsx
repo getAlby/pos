@@ -60,9 +60,9 @@ export function Pay() {
         )}
         <div className="relative flex justify-center items-center">
           <QRCodeSVG value={invoice} size={256} />
-          {metadata?.picture && (
+          {metadata?.image && (
             <img
-              src={metadata.picture}
+              src={metadata.image}
               className="absolute w-[25%] h-[25%] rounded-full z-10 border-white border-4"
             />
           )}

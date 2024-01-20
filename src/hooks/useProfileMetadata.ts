@@ -10,7 +10,7 @@ export function useProfileMetadata(pubkey: string | undefined) {
   const ndk = useStore((store) => store.ndk);
 
   useEffect(() => {
-    if (!pubkey) {
+    if (!pubkey || !ndk) {
       return;
     }
 

@@ -1,5 +1,5 @@
 import { webln } from '@getalby/sdk';
-import NDK, { NDKConstructorParams, NDKPrivateKeySigner } from '@nostr-dev-kit/ndk';
+import NDK, { NDKPrivateKeySigner } from '@nostr-dev-kit/ndk';
 import NDKCacheAdapterDexie from '@nostr-dev-kit/ndk-cache-dexie';
 import { create } from 'zustand';
 
@@ -8,7 +8,7 @@ import { CartItem, Item } from '../types';
 interface State {
   readonly provider: webln.NostrWebLNProvider | undefined;
   readonly cart: CartItem[];
-  ndk: NDK;
+  ndk: NDK | undefined;
 }
 
 interface Actions {
@@ -16,34 +16,34 @@ interface Actions {
   addItemToCart(item: Item): void;
   removeItemFromCart(item: Item): void;
   clearCart(): void;
-  addRelay(relay: string): void;
-  removeRelay(relay: string): void;
 }
 
 const initialRelays = ['wss://relay.damus.io', 'wss://relay.shitforce.one'];
-const initialSigner = undefined;
-
-const initialNdkConstructorParams: NDKConstructorParams = {
-  cacheAdapter: new NDKCacheAdapterDexie({ dbName: 'ndk-cache' }),
-  explicitRelayUrls: initialRelays,
-  signer: initialSigner,
-  autoConnectUserRelays: false,
-  autoFetchUserMutelist: false,
-};
 
 const useStore = create<State & Actions>((set, get) => ({
   provider: undefined,
+  ndk: undefined,
   cart: [],
-  ndk: new NDK(initialNdkConstructorParams),
 
   setProvider: (provider) => {
-    set((state) => ({
+    let ndk: NDK | undefined;
+    if (provider) {
+      ndk = new NDK({
+        cacheAdapter: new NDKCacheAdapterDexie({ dbName: 'ndk-cache' }),
+        explicitRelayUrls: initialRelays,
+        autoConnectUserRelays: false,
+        autoFetchUserMutelist: false,
+        signer: new NDKPrivateKeySigner(provider.secret),
+      });
+      ndk.connect();
+    } else {
+      // TODO: properly clean up ndk - is there a disconnect function?
+    }
+
+    set({
       provider,
-      ndk: new NDK({
-        ...state.ndk,
-        signer: new NDKPrivateKeySigner(provider?.secret),
-      }),
-    }));
+      ndk,
+    });
   },
 
   addItemToCart: (item) => {
@@ -95,40 +95,6 @@ const useStore = create<State & Actions>((set, get) => ({
   clearCart: () => {
     set({
       cart: [],
-    });
-  },
-
-  addRelay: (relay) => {
-    set((state) => {
-      const currentRelays = state.ndk.explicitRelayUrls || [];
-
-      if (currentRelays.includes(relay)) {
-        return state;
-      }
-
-      return {
-        ndk: new NDK({
-          ...state.ndk,
-          explicitRelayUrls: [...currentRelays, relay],
-        }),
-      };
-    });
-  },
-
-  removeRelay: (relay) => {
-    set((state) => {
-      const currentRelays = state.ndk.explicitRelayUrls || [];
-
-      if (!currentRelays.includes(relay)) {
-        return state;
-      }
-
-      return {
-        ndk: new NDK({
-          ...state.ndk,
-          explicitRelayUrls: currentRelays.filter((r) => r != relay),
-        }),
-      };
     });
   },
 }));

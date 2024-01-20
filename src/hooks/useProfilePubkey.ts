@@ -13,7 +13,7 @@ export function useProfilePubkey() {
   const walletPubkey = useStore((store) => store.provider)?.publicKey;
 
   useEffect(() => {
-    if (!walletPubkey) {
+    if (!walletPubkey || !ndk) {
       return;
     }
 
@@ -31,8 +31,12 @@ export function useProfilePubkey() {
 
     const subscription = ndk.subscribe(filters);
 
-    subscription.on('event', (event) => {
-      setEvents((prevEvents) => [...prevEvents, event]);
+    subscription.on('event', (event: NDKEvent) => {
+      setEvents((prevEvents) =>
+        prevEvents.some((existingEvent) => existingEvent.id === event.id)
+          ? prevEvents
+          : [...prevEvents, event].sort((a, b) => (b.created_at || 0) - (a.created_at || 0))
+      );
     });
 
     subscription.on('eose', () => {

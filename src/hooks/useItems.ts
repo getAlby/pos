@@ -13,7 +13,7 @@ export function useItems() {
   const walletPubkey = useStore((store) => store.provider)?.publicKey;
 
   useEffect(() => {
-    if (!walletPubkey) {
+    if (!walletPubkey || !ndk) {
       return;
     }
 
@@ -32,7 +32,11 @@ export function useItems() {
     const subscription = ndk.subscribe(filters);
 
     subscription.on('event', (event) => {
-      setEvents((prevEvents) => [...prevEvents, event]);
+      setEvents((prevEvents) =>
+        prevEvents.some((existingEvent) => existingEvent.id === event.id)
+          ? prevEvents
+          : [...prevEvents, event]
+      );
     });
 
     subscription.on('eose', () => {

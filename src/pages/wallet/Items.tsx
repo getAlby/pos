@@ -21,37 +21,38 @@ export function Items() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    try {
-      setSaving(true);
+    (async () => {
+      try {
+        setSaving(true);
 
-      const item: Item = {
-        name: itemName,
-        price: parseInt(itemPrice),
-      };
+        const item: Item = {
+          name: itemName,
+          price: parseInt(itemPrice),
+        };
 
-      if (isNaN(item.price) || item.price < 1) {
-        throw new Error('Invalid item price');
+        if (isNaN(item.price) || item.price < 1) {
+          throw new Error('Invalid item price');
+        }
+
+        const event = new NDKEvent(ndk);
+        event.created_at = Math.floor(Date.now() / 1000);
+        event.kind = 30078;
+        event.content = JSON.stringify(item);
+        event.tags = [
+          [appCustomDataTag, appCustomDataValues.item],
+          ['d', 'BuzzPay item - ' + item.name],
+        ];
+
+        const publishedRelays = await event.publish();
+        console.log('Published to relays', publishedRelays);
+      } catch (error) {
+        console.error(error);
+
+        alert('Failed to update profile: ' + error);
+      } finally {
+        setSaving(false);
       }
-
-      const event = new NDKEvent(ndk);
-      event.created_at = Math.floor(Date.now() / 1000);
-      event.kind = 30078;
-      event.content = JSON.stringify(item);
-      event.tags = [
-        [appCustomDataTag, appCustomDataValues.item],
-        ['d', 'BuzzPay item - ' + item.name],
-      ];
-
-      event.publish().then(() => {
-        console.log('Published');
-      });
-    } catch (error) {
-      console.error(error);
-
-      alert('Failed to update profile: ' + error);
-    } finally {
-      setSaving(false);
-    }
+    })();
   };
 
   if (isLoading) {
