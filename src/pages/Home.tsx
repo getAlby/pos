@@ -51,10 +51,15 @@ export function Home() {
                   info.methods.indexOf("lookupInvoice") < 0 ||
                   info.methods.indexOf("getInfo") < 0
                 ) {
-                  throw new Error(
-                    "This provider must support exactly NWC getInfo, makeInvoice and lookupInvoice. Supports: " +
-                      info.methods.join(",")
-                  );
+                  if (
+                    !confirm(
+                      "This provider should only support NWC getInfo, makeInvoice and lookupInvoice. Supports: " +
+                        info.methods.join(",") +
+                        "\nIf you share this URL your balance could be potentially drained. Are you sure you want to connect?"
+                    )
+                  ) {
+                    return;
+                  }
                 }
                 if (!(provider instanceof WebLNProviders.NostrWebLNProvider)) {
                   throw new Error("WebLN provider is not an instance of NostrWebLNProvider");
