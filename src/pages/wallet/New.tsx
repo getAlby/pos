@@ -29,6 +29,7 @@ export function New() {
         name: label || findFreeLabel(),
         price: parseInt(amount),
       });
+      setAmount("");
     }
   }
 
