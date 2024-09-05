@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
 import { BuzzPay } from "./icons/BuzzPay";
-import {
-  PopiconsCartDuotone,
-  PopiconsShareDuotone,
-  PopiconsLeftSidebarTopNavDuotone,
-  PopiconsLogoutDuotone,
-  PopiconsBulbDuotone,
-  PopiconsFaceSmileDuotone,
-} from "@popicons/react";
+import { PopiconsBulbDuotone, PopiconsLeftSidebarTopNavDuotone, PopiconsFaceSmileDuotone, PopiconsLogoutDuotone, PopiconsShareDuotone, PopiconsCartDuotone } from "@popicons/react";
 import { localStorageKeys } from "../constants";
 import useStore from "../state/store";
 

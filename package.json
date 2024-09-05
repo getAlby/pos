@@ -16,7 +16,7 @@
     "@getalby/sdk": "^3.7.0",
     "@nostr-dev-kit/ndk": "^2.3.2",
     "@nostr-dev-kit/ndk-cache-dexie": "^2.2.3",
-    "@popicons/react": "^0.0.12",
+    "@popicons/react": "0.0.11",
     "nostr-tools": "1.17.0",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
