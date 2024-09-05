@@ -1283,10 +1283,10 @@
     utf8-buffer "^1.0.0"
     websocket-polyfill "^0.0.3"
 
-"@popicons/react@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@popicons/react/-/react-0.0.8.tgz#b329abf0f0f12da76e6eb1a1824f075cac23eb2d"
-  integrity sha512-/WyuFuSAThK9zCHiIY7N+jxAWnqu4C8kkhXIkj5PcPlBYGKw9T93UheWz+KkSLnAQIUI+jovVrSMV/AZuPROqg==
+"@popicons/react@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@popicons/react/-/react-0.0.12.tgz#044bde1d70124b5afadf0cebde8c7edf63f5cdeb"
+  integrity sha512-gImLemvEWT2OzBmikcw41iGtzQYR0912YYeKOtVmE/ZkcWrsn1Vkpe6lWvPAKVJBzHG8hUmZJLut0DpWBeYyKg==
 
 "@remix-run/router@1.14.1":
   version "1.14.1"
