@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
 import { BuzzPay } from "./icons/BuzzPay";
-import {
-  PopiconsCartDuotone,
-  PopiconsShareDuotone,
-  PopiconsLeftSidebarTopNavDuotone,
-  PopiconsLogoutDuotone,
-  PopiconsBulbDuotone,
-  PopiconsFaceSmileDuotone,
-} from "@popicons/react";
+import { PopiconsBulbDuotone, PopiconsLeftSidebarTopNavDuotone, PopiconsFaceSmileDuotone, PopiconsLogoutDuotone, PopiconsShareDuotone } from "@popicons/react";
 import { localStorageKeys } from "../constants";
 import useStore from "../state/store";
 
@@ -72,7 +65,7 @@ export function Navbar({ onOpenCart }: NavbarProps) {
       <div className="flex-none">
         <Link to="../items" onClick={onOpenCart}>
           <button className="btn btn-square btn-ghost relative">
-            <PopiconsCartDuotone className="w-6 h-6" />
+            <PopiconsShareDuotone className="w-6 h-6" />
             {cart.length > 0 && (
               <div className="badge badge-info absolute -top-2 -right-2">
                 {cart.map((item) => item.quantity).reduce((a, b) => a + b)}
