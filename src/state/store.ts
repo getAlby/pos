@@ -18,7 +18,11 @@ interface Actions {
   clearCart(): void;
 }
 
-const initialRelays = ["wss://relay.damus.io", "wss://relay.shitforce.one"];
+const initialRelays = [
+  "wss://relay.damus.io",
+  "wss://relay.primal.net",
+  "wss://relay.nostr.net"
+];
 
 const useStore = create<State & Actions>((set, get) => ({
   provider: undefined,
@@ -33,7 +37,7 @@ const useStore = create<State & Actions>((set, get) => ({
         explicitRelayUrls: initialRelays,
         autoConnectUserRelays: false,
         autoFetchUserMutelist: false,
-        signer: new NDKPrivateKeySigner(provider.secret),
+        signer: new NDKPrivateKeySigner(provider.client.secret),
       });
       ndk.connect();
     } else {
