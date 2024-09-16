@@ -118,24 +118,25 @@ export function New() {
           className="flex flex-col items-center justify-center w-full flex-1"
         >
           <div className="flex flex-col items-center justify-center w-full flex-1">
-            <div className="flex flex-col my-8 items-center justify-center">
+            <div className="flex flex-col mb-4 items-center justify-center">
               <p className="text-4xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
                 {amount}
               </p>
-              <select
-                className="text-l m-2 w-[12ch] whitespace-nowrap text-center mx-auto bg-transparent text-gray-400 text-center"
-                value={currency}
-                onChange={handleCurrencyChange} // Handle currency change
-              >
-                <option value="SATS">SATS</option>
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-              </select>
-              <div className="flex items-center">
-                <span className="mb-2 text-gray-400">{label}</span>
+              <div className="flex items-center justify-center">
+                <select
+                  className="text-l m-2 w-[12ch] whitespace-nowrap text-center mx-auto bg-transparent text-gray-400 text-center"
+                  value={currency}
+                  onChange={handleCurrencyChange} // Handle currency change
+                >
+                  <option value="SATS">SATS</option>
+                  <option value="EUR">EUR</option>
+                  <option value="USD">USD</option>
+                </select>
+                <span className="mb-2 text-gray-400 ml-4">{label}</span>
                 <button 
                   onClick={handleSetLabel}
                   style={{ opacity: 0.3 }} 
+                  className="ml-2"
                 >
                   <Edit />
                 </button>
