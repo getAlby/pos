@@ -119,11 +119,11 @@ export function New() {
         >
           <div className="flex flex-col items-center justify-center w-full flex-1">
             <div className="flex flex-col my-8 items-center justify-center">
-              <p className="text-6xl p-2 w-[21ch] whitespace-nowrap text-center mx-auto">
+              <p className="text-4xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
                 {amount}
               </p>
               <select
-                className="text-xl p-2 w-[12ch] whitespace-nowrap text-center mx-auto bg-transparent text-gray-400"
+                className="text-l m-2 w-[12ch] whitespace-nowrap text-center mx-auto bg-transparent text-gray-400 text-center"
                 value={currency}
                 onChange={handleCurrencyChange} // Handle currency change
               >
@@ -132,7 +132,7 @@ export function New() {
                 <option value="USD">USD</option>
               </select>
               <div className="flex items-center">
-                <span className="m-2 text-gray-400">{label}</span>
+                <span className="mb-2 text-gray-400">{label}</span>
                 <button 
                   onClick={handleSetLabel}
                   style={{ opacity: 0.3 }} 
@@ -146,7 +146,7 @@ export function New() {
                 <button
                   key={num}
                   type="button" // Prevent form submission
-                  className="btn btn-primary w-full h-16 flex-grow text-3xl flex items-center justify-center"
+                  className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
                   onClick={() => handleNumberClick(`${num}`)}
                 >
                   {num}
@@ -154,20 +154,20 @@ export function New() {
               ))}
               
               <span
-                className="w-full h-16 flex-grow text-3xl flex items-center justify-center"
+                className="w-full h-16 flex-grow text-2xl flex items-center justify-center"
               >
               </span>
               
               <button
                 type="button" // Prevent form submission
-                className="btn btn-primary w-full h-16 flex-grow text-3xl flex items-center justify-center"
+                className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
                 onClick={() => handleNumberClick(`${0}`)}
               >
                 0
               </button>
 
               <span
-                className="w-full h-16 flex-grow text-3xl flex items-center justify-center"
+                className="w-full h-16 flex-grow text-2xl flex items-center justify-center"
               >
               </span>
 
@@ -198,7 +198,7 @@ export function New() {
             </div>
           </div>
           <button
-            className="btn btn-primary w-full h-16 text-4xl font-bold"
+            className="btn btn-primary w-full h-16 text-xl font-bold flex-grow-0"
             type="submit"
             disabled={isLoading || total <= 0} // Disable if total is 0
           >
