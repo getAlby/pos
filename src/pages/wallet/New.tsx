@@ -41,7 +41,7 @@ export function New() {
   useEffect(() => {
     const updateTotalInSats = async () => {
       if (currency !== "SATS") {
-        const newTotalInSats = await fiat.getSatoshiValue({ amount: total, currency });
+        const newTotalInSats = await fiat.getSatoshiValue({ amount: total/100, currency });
         setTotalInSats(newTotalInSats);
       } else {
         setTotalInSats(total); // Set totalInSats directly if currency is SATS
@@ -109,6 +109,13 @@ export function New() {
     if (newLabel) setLabel(newLabel); // Set the label if provided
   };
 
+  const formatNumber = (num: number) => {
+    if (currency === "SATS") {
+      return num.toString();
+    }
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(num / 100);
+  };
+
   return (
     <>
       <Navbar />
@@ -120,7 +127,7 @@ export function New() {
           <div className="flex flex-col items-center justify-center w-full flex-1">
             <div className="flex flex-col mb-4 items-center justify-center">
               <p className="text-4xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
-                {amount}
+                {formatNumber(amount)}
               </p>
               <div className="flex items-center justify-center">
                 <select
@@ -131,6 +138,21 @@ export function New() {
                   <option value="SATS">SATS</option>
                   <option value="EUR">EUR</option>
                   <option value="USD">USD</option>
+                  <option value="GBP">GBP</option>
+                  <option value="CHF">CHF</option>
+                  <option value="AUD">AUD</option>
+                  <option value="CAD">CAD</option>
+                  <option value="NZD">NZD</option>
+                  <option value="SEK">SEK</option>
+                  <option value="NOK">NOK</option>
+                  <option value="DKK">DKK</option>
+                  <option value="CNY">CNY</option>
+                  <option value="RUB">RUB</option>
+                  <option value="INR">INR</option>
+                  <option value="BRL">BRL</option>
+                  <option value="MXN">MXN</option>
+                  <option value="TRY">TRY</option>
+                  <option value="ZAR">ZAR</option>
                 </select>
                 <span className="mb-2 text-gray-400 ml-4">{label}</span>
                 <button 
@@ -162,15 +184,18 @@ export function New() {
               <button
                 type="button" // Prevent form submission
                 className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
-                onClick={() => handleNumberClick(`${0}`)}
+                onClick={() => handleNumberClick(`0`)}
               >
                 0
               </button>
 
-              <span
-                className="w-full h-16 flex-grow text-2xl flex items-center justify-center"
+              <button
+                type="button" // Prevent form submission
+                className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
+                onClick={() => handleNumberClick(`00`) }
               >
-              </span>
+                .00
+              </button>
 
               <button
                 type="button" // Prevent form submission
@@ -203,7 +228,7 @@ export function New() {
             type="submit"
             disabled={isLoading || total <= 0} // Disable if total is 0
           >
-            Charge {totalInSats} sats ({total} {currency})
+            Charge {totalInSats} sats{currency !== "SATS" && ` (${formatNumber(total)})`}
             {isLoading && <span className="loading loading-spinner"></span>}
           </button>
         </form>
