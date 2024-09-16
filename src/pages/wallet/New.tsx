@@ -1,26 +1,42 @@
 import React, { FormEvent, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import { Navbar } from "../../components/Navbar";
 import useStore from "../../state/store";
-import { fiat } from "@getalby/lightning-tools"; // Import the conversion function
+import { fiat } from "@getalby/lightning-tools"; 
+import { Edit } from "../../components/icons/Edit";
 
 export function New() {
   const [amount, setAmount] = React.useState(0); // Current input
   const [total, setTotal] = React.useState(0); // Total amount
   const [totalInSats, setTotalInSats] = React.useState(0); // Total amount in sats
-  const [label, setLabel] = React.useState("");
+  const [label, setLabel] = React.useState("BuzzPay");
   const [isLoading, setLoading] = React.useState(false);
   const [currency, setCurrency] = React.useState("SATS"); // State for currency selection
   const navigate = useNavigate();
   const provider = useStore((store) => store.provider);
+  const location = useLocation(); // Get the current location
 
   useEffect(() => {
-    // Load currency from local storage on component mount
+    // Load currency and label from local storage on component mount
     const savedCurrency = localStorage.getItem("selectedCurrency");
+    const savedLabel = localStorage.getItem("label");
     if (savedCurrency) {
       setCurrency(savedCurrency);
     }
+    if (savedLabel) {
+      setLabel(savedLabel);
+    }
   }, []); // Run once on mount
+
+  useEffect(() => {
+    // Load label from query parameter and save it to local storage
+    const queryParams = new URLSearchParams(location.search);
+    const labelFromQuery = queryParams.get("label") || queryParams.get("name");
+    if (labelFromQuery) {
+      setLabel(labelFromQuery); // Set the label if it exists in the query
+      localStorage.setItem("label", labelFromQuery); // Save the label to local storage
+    }
+  }, [location]); // Run once on mount and when location changes
 
   useEffect(() => {
     const updateTotalInSats = async () => {
@@ -88,6 +104,11 @@ export function New() {
     
   };
 
+  const handleSetLabel = () => {
+    const newLabel = prompt("Enter a label:");
+    if (newLabel) setLabel(newLabel); // Set the label if provided
+  };
+
   return (
     <>
       <Navbar />
@@ -110,6 +131,15 @@ export function New() {
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
               </select>
+              <div className="flex items-center">
+                <span className="m-2 text-gray-400">{label}</span>
+                <button 
+                  onClick={handleSetLabel}
+                  style={{ opacity: 0.3 }} 
+                >
+                  <Edit />
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-3 gap-4 w-full">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
