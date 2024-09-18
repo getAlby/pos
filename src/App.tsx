@@ -17,7 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" Component={Home} />
-          <Route path="/wallet/:nwcUrl" Component={Wallet}>
+          <Route path="/wallet" Component={Wallet}>
             <Route path="new" Component={New} />
             <Route path="pay/:invoice" Component={Pay} />
             <Route path="paid" Component={Paid} />

@@ -1,18 +1,22 @@
 import { webln } from "@getalby/sdk";
 import React from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { localStorageKeys } from "../constants";
 import useStore from "../state/store";
 
 export function Wallet() {
-  const { nwcUrl } = useParams();
 
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
   React.useEffect(() => {
     (async () => {
-      if (nwcUrl) {
+      // Load label from query parameter and save it to local storage
+      const queryParams = new URLSearchParams(location.search);
+      const nwcEncoded = queryParams.get("nwc");
+      if (nwcEncoded) {
         try {
+          const nwcUrl = atob(nwcEncoded);
           console.log("Enabling provider");
           const _provider = new webln.NostrWebLNProvider({
             nostrWalletConnectUrl: nwcUrl,
@@ -27,14 +31,12 @@ export function Wallet() {
           console.error(error);
           alert("Failed to load wallet: " + error);
         }
+      } else {
+        navigate("/");
       }
     })();
-  }, [nwcUrl]);
+  }, []);
 
-  if (!nwcUrl) {
-    navigate("/");
-    return null;
-  }
 
   return (
     <div className="flex flex-col w-full h-full p-2">

@@ -4,6 +4,7 @@ import { Navbar } from "../../components/Navbar";
 import useStore from "../../state/store";
 import { fiat } from "@getalby/lightning-tools"; 
 import { Edit } from "../../components/icons/Edit";
+import { localStorageKeys } from "../../constants";
 
 export function New() {
   const [amount, setAmount] = React.useState(0); // Current input
@@ -18,8 +19,8 @@ export function New() {
 
   useEffect(() => {
     // Load currency and label from local storage on component mount
-    const savedCurrency = localStorage.getItem("selectedCurrency");
-    const savedLabel = localStorage.getItem("label");
+    const savedCurrency = localStorage.getItem(localStorageKeys.currency);
+    const savedLabel = localStorage.getItem(localStorageKeys.label);
     if (savedCurrency) {
       setCurrency(savedCurrency);
     }
@@ -34,7 +35,7 @@ export function New() {
     const labelFromQuery = queryParams.get("label") || queryParams.get("name");
     if (labelFromQuery) {
       setLabel(labelFromQuery); // Set the label if it exists in the query
-      localStorage.setItem("label", labelFromQuery); // Save the label to local storage
+      localStorage.setItem(localStorageKeys.label, labelFromQuery); // Save the label to local storage
     }
   }, [location]); // Run once on mount and when location changes
 
@@ -80,7 +81,7 @@ export function New() {
   const handleCurrencyChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCurrency = e.target.value;
     setCurrency(newCurrency);
-    localStorage.setItem("selectedCurrency", newCurrency); // Save currency to local storage
+    localStorage.setItem(localStorageKeys.currency, newCurrency); // Save currency to local storage
     if (newCurrency !== "SATS") {
       const newTotalInSats = await fiat.getSatoshiValue({amount: total, currency: newCurrency}); // Convert total to sats
       setTotalInSats(newTotalInSats);
