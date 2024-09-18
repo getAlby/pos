@@ -20,13 +20,13 @@ export function Navbar() {
             tabIndex={0}
             className="dropdown-content menu bg-base-100 rounded-box z-[1] w-60 p-2 shadow"
           >
-            <li>
+            <li key="share">
               <Link to="../share">
                 <PopiconsShareDuotone className="h-4 w-4" /> Share with a
                 co-worker
               </Link>
             </li>
-            <li>
+            <li key="about">
               <Link
                 to="/about"
                 onClick={() => {
@@ -36,7 +36,7 @@ export function Navbar() {
                 <PopiconsBulbDuotone className="h-4 w-4" /> About BuzzPay
               </Link>
             </li>
-            <li>
+            <li key="logout">
               <Link
                 to="/"
                 onClick={(e) => {

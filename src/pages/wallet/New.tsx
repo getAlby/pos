@@ -136,24 +136,24 @@ export function New() {
                   value={currency}
                   onChange={handleCurrencyChange} // Handle currency change
                 >
-                  <option value="SATS" selected={currency === "SATS"}>SATS</option>
-                  <option value="EUR" selected={currency === "EUR"}>EUR</option>
-                  <option value="USD" selected={currency === "USD"}>USD</option>
-                  <option value="GBP" selected={currency === "GBP"}>GBP</option>
-                  <option value="CHF" selected={currency === "CHF"}>CHF</option>
-                  <option value="AUD" selected={currency === "AUD"}>AUD</option>
-                  <option value="CAD" selected={currency === "CAD"}>CAD</option>
-                  <option value="NZD" selected={currency === "NZD"}>NZD</option>
-                  <option value="SEK" selected={currency === "SEK"}>SEK</option>
-                  <option value="NOK" selected={currency === "NOK"}>NOK</option>
-                  <option value="DKK" selected={currency === "DKK"}>DKK</option>
-                  <option value="CNY" selected={currency === "CNY"}>CNY</option>
-                  <option value="RUB" selected={currency === "RUB"}>RUB</option>
-                  <option value="INR" selected={currency === "INR"}>INR</option>
-                  <option value="BRL" selected={currency === "BRL"}>BRL</option>
-                  <option value="MXN" selected={currency === "MXN"}>MXN</option>
-                  <option value="TRY" selected={currency === "TRY"}>TRY</option>
-                  <option value="ZAR" selected={currency === "ZAR"}>ZAR</option>
+                  <option value="SATS">SATS</option>
+                  <option value="EUR">EUR</option>
+                  <option value="USD">USD</option>
+                  <option value="GBP">GBP</option>
+                  <option value="CHF">CHF</option>
+                  <option value="AUD">AUD</option>
+                  <option value="CAD">CAD</option>
+                  <option value="NZD">NZD</option>
+                  <option value="SEK">SEK</option>
+                  <option value="NOK">NOK</option>
+                  <option value="DKK">DKK</option>
+                  <option value="CNY">CNY</option>
+                  <option value="RUB">RUB</option>
+                  <option value="INR">INR</option>
+                  <option value="BRL">BRL</option>
+                  <option value="MXN">MXN</option>
+                  <option value="TRY">TRY</option>
+                  <option value="ZAR">ZAR</option>
                 </select>
                 <span className="mb-2 text-gray-400 ml-4">{label}</span>
                 <button 
