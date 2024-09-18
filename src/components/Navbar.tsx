@@ -59,7 +59,7 @@ export function Navbar() {
         </div>
       </div>
       <div className="flex-1 justify-center">
-        <BuzzPay className="mt-2 h-6 w-24" />
+        <BuzzPay className="mt-2 h-6 w-24" style={{ marginLeft: '-66px' }} />
       </div>
       <div className="flex-none"></div>
     </div>
