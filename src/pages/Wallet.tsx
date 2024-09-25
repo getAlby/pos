@@ -11,25 +11,19 @@ export function Wallet() {
   
   React.useEffect(() => {
     (async () => {
-      // Load label from query parameter and save it to local storage
-      const queryParams = new URLSearchParams(location.search);
-      const nwcEncoded = queryParams.get("nwc");
-      if (nwcEncoded) {
+      const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
+      if (nwcUrl) {
+        console.log("Enabling provider");
         try {
-          const nwcUrl = atob(nwcEncoded);
-          console.log("Enabling provider");
           const _provider = new webln.NostrWebLNProvider({
             nostrWalletConnectUrl: nwcUrl,
           });
-
           await _provider.enable();
           useStore.getState().setProvider(_provider);
-
-          // store the wallet URL so PWA can restore it (PWA always loads on the homepage)
-          window.localStorage.setItem(localStorageKeys.nwcUrl, nwcUrl);
         } catch (error) {
           console.error(error);
           alert("Failed to load wallet: " + error);
+          navigate("/");
         }
       } else {
         navigate("/");
