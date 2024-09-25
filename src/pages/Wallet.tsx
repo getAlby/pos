@@ -1,14 +1,13 @@
 import { webln } from "@getalby/sdk";
 import React from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { localStorageKeys } from "../constants";
 import useStore from "../state/store";
 
 export function Wallet() {
 
   const navigate = useNavigate();
-  const location = useLocation();
-  
+
   React.useEffect(() => {
     (async () => {
       const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
