@@ -2,34 +2,42 @@ import React, { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/Navbar";
 import useStore from "../../state/store";
-import { MAX_MEMO_LENGTH } from "../../constants";
+import { CURRENCIES, MAX_MEMO_LENGTH } from "../../constants";
+import { fiat } from "@getalby/lightning-tools";
 
 export function New() {
   const [amount, setAmount] = React.useState("");
   const [label, setLabel] = React.useState("");
-  const { cart, addItemToCart } = useStore();
+  const { cart, addItemToCart, removeItemFromCart } = useStore();
   const [isLoading, setLoading] = React.useState(false);
+  const [currency, setCurrency] = React.useState("sats");
   const navigate = useNavigate();
   const provider = useStore((store) => store.provider);
 
-  function convertCurrentEntryToCartItem() {
+  async function convertCurrentEntryToCartItem() {
     if (amount) {
-      const findFreeLabel = () => {
-        const labelPrefix = "Item ";
-        let index = 0;
-        let freeLabel: string;
-        do {
-          index++;
-          freeLabel = `${labelPrefix}${index}`;
-        } while (cart.some((item) => item.name === freeLabel));
-        return freeLabel;
-      };
+      try {
+        const satoshiValue =
+          currency === "sats" ? parseInt(amount) : await fiat.getSatoshiValue({ amount, currency });
+        const findFreeLabel = () => {
+          const labelPrefix = "Item ";
+          let index = 0;
+          let freeLabel: string;
+          do {
+            index++;
+            freeLabel = `${labelPrefix}${index}`;
+          } while (cart.some((item) => item.name === freeLabel));
+          return freeLabel;
+        };
 
-      addItemToCart({
-        name: label || findFreeLabel(),
-        price: parseInt(amount),
-      });
-      setAmount("");
+        addItemToCart({
+          name: label || findFreeLabel(),
+          price: satoshiValue,
+        });
+        setAmount("");
+      } catch (error) {
+        alert("Failed to create invoice: " + error);
+      }
     }
   }
 
@@ -37,7 +45,7 @@ export function New() {
     e.preventDefault();
     try {
       setLoading(true);
-      convertCurrentEntryToCartItem();
+      await convertCurrentEntryToCartItem();
 
       const finalCart = useStore.getState().cart;
       if (!finalCart.length) {
@@ -63,6 +71,9 @@ export function New() {
     } catch (error) {
       console.error(error);
       alert("Failed to create invoice: " + error);
+      //remove the last item from the cart if the price is too high for lightning payment
+      const { cart } = useStore.getState();
+      removeItemFromCart(cart[cart.length - 1]);
       setLoading(false);
     }
   }
@@ -76,7 +87,21 @@ export function New() {
           className="flex h-full w-full flex-col items-center justify-center"
         >
           <div className="flex max-w-full grow flex-col items-center justify-center gap-5">
-            <p>Amount (sats)</p>
+            <p>Amount ({currency})</p>
+            <select
+              onChange={(e) => setCurrency(e.target.value)}
+              title="currency-select"
+              className="select select-bordered max-w-xs"
+            >
+              <option disabled selected>
+                Choose Currency
+              </option>
+              {CURRENCIES.map((currency, i) => (
+                <option key={i} value={currency.currency}>
+                  {currency.currency}
+                </option>
+              ))}
+            </select>
             <input
               type="number"
               inputMode="numeric"
@@ -109,7 +134,7 @@ export function New() {
             {cart
               .map((cart) => cart.price * cart.quantity)
               .reduce((a, b) => a + b, parseInt(amount || "0"))}{" "}
-            sats
+            {currency}
             {isLoading && <span className="loading loading-spinner"></span>}
           </button>
         </form>
