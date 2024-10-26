@@ -20,6 +20,25 @@ export function New() {
   const [label, setLabel] = React.useState(
     localStorage.getItem(localStorageKeys.label) || DEFAULT_LABEL
   );
+  const [currencies, setCurrencies] = React.useState<string[]>(["SATS"]);
+  useEffect(() => {
+    async function fetchCurrencies() {
+      try {
+        const response = await fetch(`https://getalby.com/api/rates`);
+        const data = (await response.json()) as Record<string, { priority: number }>;
+
+        const mappedCurrencies = Object.entries(data);
+
+        mappedCurrencies.sort((a, b) => a[1].priority - b[1].priority);
+
+        setCurrencies(mappedCurrencies.map((currency) => currency[0].toUpperCase()));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchCurrencies();
+  }, []);
 
   useEffect(() => {
     // Load currency and label from local storage on component mount
@@ -147,24 +166,11 @@ export function New() {
                   value={currency}
                   onChange={handleCurrencyChange}
                 >
-                  <option value="SATS">SATS</option>
-                  <option value="EUR">EUR</option>
-                  <option value="USD">USD</option>
-                  <option value="GBP">GBP</option>
-                  <option value="CHF">CHF</option>
-                  <option value="AUD">AUD</option>
-                  <option value="CAD">CAD</option>
-                  <option value="NZD">NZD</option>
-                  <option value="SEK">SEK</option>
-                  <option value="NOK">NOK</option>
-                  <option value="DKK">DKK</option>
-                  <option value="CNY">CNY</option>
-                  <option value="RUB">RUB</option>
-                  <option value="INR">INR</option>
-                  <option value="BRL">BRL</option>
-                  <option value="MXN">MXN</option>
-                  <option value="TRY">TRY</option>
-                  <option value="ZAR">ZAR</option>
+                  {currencies.map((currency) => (
+                    <option key={currency} value={currency}>
+                      {currency}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
