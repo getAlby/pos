@@ -1,12 +1,18 @@
 import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
 import { Backbar } from "../../components/Backbar";
+import { localStorageKeys } from "../../constants";
 
 export function Share() {
   const [shareURI, setShareURI] = useState("");
 
   useEffect(() => {
-    setShareURI(window.location.href.replace("/share", "/new"));
+    const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
+    if (nwcUrl) {
+      console.log("Restoring wallet URL", nwcUrl);
+      const nwcEncoded = btoa(nwcUrl);
+      setShareURI(window.location.href.replace("/wallet/share", `?nwc=${nwcEncoded}`));
+    }
   }, []);
 
   return (

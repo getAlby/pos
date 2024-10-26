@@ -14,7 +14,7 @@ export function Backbar({ navigateTo }: BackbarProps) {
           className="btn btn-ghost m-1"
           onClick={() => navigate((navigateTo as To) || "../new")}
         >
-          <PopiconsArrowLeftDuotone className="w-6 h-6" />
+          <PopiconsArrowLeftDuotone className="h-6 w-6" />
         </button>
       </div>
     </div>
