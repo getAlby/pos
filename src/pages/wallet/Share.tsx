@@ -11,7 +11,7 @@ export function Share() {
     if (nwcUrl) {
       console.log("Restoring wallet URL", nwcUrl);
       const nwcEncoded = btoa(nwcUrl);
-      setShareURI(window.location.href.replace("/share", `/new?nwc=${nwcEncoded}`));
+      setShareURI(window.location.href.replace("/wallet/share", `?nwc=${nwcEncoded}`));
     }
   }, []);
 
