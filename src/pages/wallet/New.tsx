@@ -150,14 +150,14 @@ export function New() {
   return (
     <>
       <Navbar />
-      <div className="flex h-screen w-full flex-col items-center justify-between">
+      <div className="flex w-full h-full flex-col items-center justify-between">
         <form
           onSubmit={onSubmit}
           className="flex flex-col items-center justify-center w-full flex-1"
         >
           <div className="flex flex-col items-center justify-center w-full flex-1 mb-4">
             <div className="flex flex-1 flex-col mb-4 items-center justify-center">
-              <p className="text-7xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
+              <p className="text-7xl pb-2 whitespace-nowrap text-center mx-auto">
                 {formatNumber(amount)}
               </p>
               <div className="flex items-center justify-center">
