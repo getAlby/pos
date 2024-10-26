@@ -4,7 +4,7 @@ import { Navbar } from "../../components/Navbar";
 import useStore from "../../state/store";
 import { fiat } from "@getalby/lightning-tools";
 import { localStorageKeys } from "../../constants";
-import { PopiconsEditPencilDuotone } from "@popicons/react";
+import { PopiconsChevronBottomDuotone, PopiconsEditPencilDuotone } from "@popicons/react";
 
 export const DEFAULT_LABEL = "BuzzPay";
 
@@ -162,7 +162,7 @@ export function New() {
               </p>
               <div className="flex items-center justify-center">
                 <select
-                  className="text-center m-2 w-[7ch] whitespace-nowrap mx-auto bg-transparent text-gray-400 cursor-pointer"
+                  className="m-2 w-16 whitespace-nowrap mx-auto bg-transparent text-gray-400 cursor-pointer appearance-none"
                   value={currency}
                   onChange={handleCurrencyChange}
                 >
@@ -172,6 +172,7 @@ export function New() {
                     </option>
                   ))}
                 </select>
+                <PopiconsChevronBottomDuotone className="h-4 w-4 -ml-4 pointer-events-none" />
               </div>
             </div>
             <button type="button" className="flex items-center gap-2 mb-8" onClick={handleSetLabel}>
