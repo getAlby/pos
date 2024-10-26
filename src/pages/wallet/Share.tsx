@@ -2,9 +2,11 @@ import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
 import { Backbar } from "../../components/Backbar";
 import { localStorageKeys } from "../../constants";
+import { PopiconsClipboardCheckDuotone, PopiconsClipboardDuotone } from "@popicons/react";
 
 export function Share() {
   const [shareURI, setShareURI] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
@@ -15,6 +17,18 @@ export function Share() {
     }
   }, []);
 
+  function copy() {
+    try {
+      window.navigator.clipboard.writeText(shareURI);
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 3000);
+    } catch (error) {
+      alert("Failed to copy: " + error);
+    }
+  }
+
   return (
     <>
       <Backbar />
@@ -22,11 +36,21 @@ export function Share() {
         Let your co-workers scan this QR code
         <QRCode value={shareURI} size={256} />
         or share this URI with them:
-        <input
-          type="text"
-          value={shareURI}
-          className="input input-bordered overflow-ellipsis w-full max-w-xs"
-        />
+        <div className="flex border-2 rounded-lg">
+          <input
+            type="text"
+            value={shareURI}
+            className="input overflow-ellipsis w-full max-w-xs text-sm"
+          />
+          <div className="w-1 h-full border-l-base-200 border-l-2"></div>
+          <button className="p-4" onClick={copy}>
+            {copied ? (
+              <PopiconsClipboardCheckDuotone className="w-4 h-4" />
+            ) : (
+              <PopiconsClipboardDuotone className="w-4 h-4" />
+            )}
+          </button>
+        </div>
       </div>
     </>
   );
