@@ -126,13 +126,17 @@ export function New() {
     setAmount(0);
   };
 
-  const formatNumber = (num: number) => {
+  const formatNumber = (num: number, numberOnly = false) => {
     if (currency === "SATS") {
       return num.toString();
     }
-    return new Intl.NumberFormat("en-US", { style: "currency", currency: currency }).format(
+    let result = new Intl.NumberFormat("en-US", { style: "currency", currency: currency }).format(
       num / 100
     );
+    if (numberOnly) {
+      result = result.replace(/[^0-9\\.,]/g, ""); // e.g. remove "THB " prefix as it takes too much space
+    }
+    return result;
   };
 
   const handleSetLabel = () => {
@@ -158,7 +162,7 @@ export function New() {
           <div className="flex flex-col items-center justify-center w-full flex-1 mb-4">
             <div className="flex flex-1 flex-col mb-4 items-center justify-center">
               <p className="text-7xl pb-2 whitespace-nowrap text-center mx-auto">
-                {formatNumber(amount)}
+                {formatNumber(amount, true)}
               </p>
               <div className="flex items-center justify-center">
                 <select
