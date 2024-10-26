@@ -26,12 +26,7 @@ export function Navbar() {
               </Link>
             </li>
             <li key="about">
-              <Link
-                to="/about"
-                onClick={() => {
-                  window.localStorage.removeItem(localStorageKeys.nwcUrl);
-                }}
-              >
+              <Link to="/about">
                 <PopiconsBulbDuotone className="h-4 w-4" /> About BuzzPay
               </Link>
             </li>
