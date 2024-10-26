@@ -3,14 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom"; // Import useLocati
 import { Navbar } from "../../components/Navbar";
 import useStore from "../../state/store";
 import { fiat } from "@getalby/lightning-tools";
-import { Edit } from "../../components/icons/Edit";
-import { localStorageKeys } from "../../constants";
+import { DEFAULT_LABEL, localStorageKeys } from "../../constants";
 
 export function New() {
   const [amount, setAmount] = React.useState(0); // Current input
   const [total, setTotal] = React.useState(0); // Total amount
   const [totalInSats, setTotalInSats] = React.useState(0); // Total amount in sats
-  const [label, setLabel] = React.useState("BuzzPay");
   const [isLoading, setLoading] = React.useState(false);
   const [currency, setCurrency] = React.useState("SATS"); // State for currency selection
   const navigate = useNavigate();
@@ -20,12 +18,8 @@ export function New() {
   useEffect(() => {
     // Load currency and label from local storage on component mount
     const savedCurrency = localStorage.getItem(localStorageKeys.currency);
-    const savedLabel = localStorage.getItem(localStorageKeys.label);
     if (savedCurrency) {
       setCurrency(savedCurrency);
-    }
-    if (savedLabel) {
-      setLabel(savedLabel);
     }
   }, []); // Run once on mount
 
@@ -34,7 +28,6 @@ export function New() {
     const queryParams = new URLSearchParams(location.search);
     const labelFromQuery = queryParams.get("label") || queryParams.get("name");
     if (labelFromQuery) {
-      setLabel(labelFromQuery); // Set the label if it exists in the query
       localStorage.setItem(localStorageKeys.label, labelFromQuery); // Save the label to local storage
     }
   }, [location]); // Run once on mount and when location changes
@@ -62,6 +55,7 @@ export function New() {
         throw new Error("wallet not loaded");
       }
       setLoading(true);
+      const label = localStorage.getItem(localStorageKeys.label) || DEFAULT_LABEL;
       const invoice = await provider.makeInvoice({
         amount: totalInSats.toString(), // Use total for the invoice
         defaultMemo: label,
@@ -107,18 +101,6 @@ export function New() {
     setAmount(0);
   };
 
-  const handleSetLabel = () => {
-    const newLabel = prompt(
-      "Enter a label (the label will be added to the payment request and is visible to the customer):"
-    );
-    if (newLabel !== null) {
-      // Set the label if provided
-      setLabel(newLabel);
-      // Save currency to local storage
-      localStorage.setItem(localStorageKeys.label, newLabel);
-    }
-  };
-
   const formatNumber = (num: number) => {
     if (currency === "SATS") {
       return num.toString();
@@ -136,8 +118,8 @@ export function New() {
           onSubmit={onSubmit}
           className="flex flex-col items-center justify-center w-full flex-1"
         >
-          <div className="flex flex-col items-center justify-center w-full flex-1">
-            <div className="flex flex-col mb-4 items-center justify-center">
+          <div className="flex flex-col items-center justify-center w-full flex-1 mb-4">
+            <div className="flex flex-1 flex-col mb-4 items-center justify-center">
               <p className="text-7xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
                 {formatNumber(amount)}
               </p>
@@ -166,10 +148,6 @@ export function New() {
                   <option value="TRY">TRY</option>
                   <option value="ZAR">ZAR</option>
                 </select>
-                <span className="mb-2 text-gray-400 ml-4">{label}</span>
-                <button onClick={handleSetLabel} style={{ opacity: 0.3 }} className="ml-2">
-                  <Edit />
-                </button>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4 w-full">
