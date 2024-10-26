@@ -13,13 +13,29 @@ import { Footer } from "../components/Footer";
 
 export function Home() {
   const navigate = useNavigate();
+
   React.useEffect(() => {
+    // Load label from query parameter and save it to local storage
+    const queryParams = new URLSearchParams(location.search);
+    const nwcEncoded = queryParams.get("nwc");
+    if (nwcEncoded) {
+      try {
+        const nwcUrl = atob(nwcEncoded);
+        // store the wallet URL so PWA can restore it (PWA always loads on the homepage)
+        window.localStorage.setItem(localStorageKeys.nwcUrl, nwcUrl);
+        navigate(`/wallet/new`);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to load wallet: " + error);
+      }
+    }
     const nwcUrl = window.localStorage.getItem(localStorageKeys.nwcUrl);
     if (nwcUrl) {
-      console.log("Restoring wallet URL", nwcUrl);
-      navigate(`/wallet/${encodeURIComponent(nwcUrl)}/new`);
+      navigate(`/wallet/new`);
     }
+  }, []);
 
+  React.useEffect(() => {
     init({
       filters: ["nwc"],
       showBalance: false,
@@ -66,7 +82,8 @@ export function Home() {
                 }
                 // TODO: below line should not be needed when modal is updated to close automatically after connecting
                 closeModal();
-                navigate(`/wallet/${encodeURIComponent(provider.nostrWalletConnectUrl)}/new`);
+                const nwcEncoded = btoa(provider.client.nostrWalletConnectUrl);
+                navigate(`/wallet/new?nwc=${nwcEncoded}`);
               } catch (error) {
                 console.error(error);
                 alert(error);
