@@ -33,7 +33,7 @@ export function Home() {
     if (nwcUrl) {
       navigate(`/wallet/new`);
     }
-  }, []);
+  }, [navigate]);
 
   React.useEffect(() => {
     init({
