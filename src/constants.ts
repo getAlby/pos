@@ -4,4 +4,3 @@ export const localStorageKeys = {
   label: "pos:label",
 };
 export const MAX_MEMO_LENGTH = 159;
-export const DEFAULT_LABEL = "BuzzPay";

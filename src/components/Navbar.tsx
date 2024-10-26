@@ -2,26 +2,13 @@ import { Link } from "react-router-dom";
 import { BuzzPay } from "./icons/BuzzPay";
 import {
   PopiconsBulbDuotone,
-  PopiconsEditPencilDuotone,
   PopiconsLeftSidebarTopNavDuotone,
   PopiconsLogoutDuotone,
   PopiconsShareDuotone,
 } from "@popicons/react";
-import { DEFAULT_LABEL, localStorageKeys } from "../constants";
+import { localStorageKeys } from "../constants";
 
 export function Navbar() {
-  const handleSetLabel = () => {
-    const newLabel = prompt(
-      "Enter a label (the label will be added to the payment request and is visible to the customer):",
-      localStorage.getItem(localStorageKeys.label) || DEFAULT_LABEL
-    );
-    if (newLabel !== null) {
-      // Save currency to local storage
-      localStorage.setItem(localStorageKeys.label, newLabel);
-      window.location.reload();
-    }
-  };
-
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
@@ -42,11 +29,6 @@ export function Navbar() {
               <Link to="/about">
                 <PopiconsBulbDuotone className="h-4 w-4" /> About BuzzPay
               </Link>
-            </li>
-            <li key="label" onClick={handleSetLabel}>
-              <div>
-                <PopiconsEditPencilDuotone className="h-4 w-4" /> Set Label
-              </div>
             </li>
             <li key="logout">
               <Link

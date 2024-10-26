@@ -3,7 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom"; // Import useLocati
 import { Navbar } from "../../components/Navbar";
 import useStore from "../../state/store";
 import { fiat } from "@getalby/lightning-tools";
-import { DEFAULT_LABEL, localStorageKeys } from "../../constants";
+import { localStorageKeys } from "../../constants";
+import { PopiconsEditPencilDuotone } from "@popicons/react";
+
+export const DEFAULT_LABEL = "BuzzPay";
 
 export function New() {
   const [amount, setAmount] = React.useState(0); // Current input
@@ -14,6 +17,9 @@ export function New() {
   const navigate = useNavigate();
   const provider = useStore((store) => store.provider);
   const location = useLocation(); // Get the current location
+  const [label, setLabel] = React.useState(
+    localStorage.getItem(localStorageKeys.label) || DEFAULT_LABEL
+  );
 
   useEffect(() => {
     // Load currency and label from local storage on component mount
@@ -29,6 +35,7 @@ export function New() {
     const labelFromQuery = queryParams.get("label") || queryParams.get("name");
     if (labelFromQuery) {
       localStorage.setItem(localStorageKeys.label, labelFromQuery); // Save the label to local storage
+      setLabel(labelFromQuery);
     }
   }, [location]); // Run once on mount and when location changes
 
@@ -55,7 +62,6 @@ export function New() {
         throw new Error("wallet not loaded");
       }
       setLoading(true);
-      const label = localStorage.getItem(localStorageKeys.label) || DEFAULT_LABEL;
       const invoice = await provider.makeInvoice({
         amount: totalInSats.toString(), // Use total for the invoice
         defaultMemo: label,
@@ -110,6 +116,18 @@ export function New() {
     );
   };
 
+  const handleSetLabel = () => {
+    const newLabel = prompt(
+      "Enter a label (the label will be added to the payment request and is visible to the customer):",
+      localStorage.getItem(localStorageKeys.label) || DEFAULT_LABEL
+    );
+    if (newLabel) {
+      // Save currency to local storage
+      localStorage.setItem(localStorageKeys.label, newLabel);
+      setLabel(newLabel);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -125,7 +143,7 @@ export function New() {
               </p>
               <div className="flex items-center justify-center">
                 <select
-                  className="text-l m-2 w-[7ch] whitespace-nowrap mx-auto bg-transparent text-gray-400 text-center"
+                  className="text-l m-2 w-[7ch] whitespace-nowrap mx-auto bg-transparent text-gray-400 text-center cursor-pointer"
                   value={currency}
                   onChange={handleCurrencyChange}
                 >
@@ -150,6 +168,10 @@ export function New() {
                 </select>
               </div>
             </div>
+            <button type="button" className="flex items-center gap-2 mb-8" onClick={handleSetLabel}>
+              <p className="text-gray-400 text-sm">{label}</p>
+              <PopiconsEditPencilDuotone className="h-4 w-4" />
+            </button>
             <div className="grid grid-cols-3 gap-4 w-full">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                 <button
