@@ -153,7 +153,7 @@ export function New() {
       <div className="flex w-full h-full flex-col items-center justify-between">
         <form
           onSubmit={onSubmit}
-          className="flex flex-col items-center justify-center w-full flex-1"
+          className="flex flex-col items-center justify-center w-full flex-1 pb-2"
         >
           <div className="flex flex-col items-center justify-center w-full flex-1 mb-4">
             <div className="flex flex-1 flex-col mb-4 items-center justify-center">
@@ -162,7 +162,7 @@ export function New() {
               </p>
               <div className="flex items-center justify-center">
                 <select
-                  className="text-l m-2 w-[7ch] whitespace-nowrap mx-auto bg-transparent text-gray-400 text-center cursor-pointer"
+                  className="text-center m-2 w-[7ch] whitespace-nowrap mx-auto bg-transparent text-gray-400 cursor-pointer"
                   value={currency}
                   onChange={handleCurrencyChange}
                 >
