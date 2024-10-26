@@ -239,7 +239,8 @@ export function New() {
             type="submit"
             disabled={isLoading || total <= 0} // Disable if total is 0
           >
-            Charge {totalInSats} sats{currency !== "SATS" && ` (${formatNumber(total)})`}
+            Charge {new Intl.NumberFormat().format(totalInSats)} sats
+            {currency !== "SATS" && ` (${formatNumber(total)})`}
             {isLoading && <span className="loading loading-spinner"></span>}
           </button>
         </form>

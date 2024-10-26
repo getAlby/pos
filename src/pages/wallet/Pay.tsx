@@ -47,7 +47,7 @@ export function Pay() {
     <>
       <Backbar />
       <div className="flex grow flex-col items-center justify-center gap-5">
-        <span className="text-4xl font-bold">{amount} sats</span>
+        <span className="text-4xl font-bold">{new Intl.NumberFormat().format(amount)} sats</span>
         <span className="font-semibold">{description}</span>
         <div className="relative flex items-center justify-center">
           <QRCodeSVG value={invoice} size={256} />
