@@ -109,7 +109,9 @@ export function Home() {
 // Needed on iOS because PWA localStorage is not shared with Safari.
 // PWA can only be installed with a static URL (e.g. "/pos/").
 function importWallet() {
-  const url = prompt("Copy wallet URL from your browser");
+  const url = prompt(
+    "On BuzzPay in another browser, go to the sidebar menu -> Share with a co-worker, copy the share URL and paste it here."
+  );
   if (url) {
     window.location.href = url;
   }
