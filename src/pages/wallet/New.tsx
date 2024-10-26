@@ -108,7 +108,12 @@ export function New() {
     const newLabel = prompt(
       "Enter a label (the label will be added to the payment request and is visible to the customer):"
     );
-    if (newLabel !== null) setLabel(newLabel); // Set the label if provided
+    if (newLabel !== null) {
+      // Set the label if provided
+      setLabel(newLabel);
+      // Save currency to local storage
+      localStorage.setItem(localStorageKeys.label, newLabel);
+    }
   };
 
   const formatNumber = (num: number) => {
@@ -137,7 +142,7 @@ export function New() {
                 <select
                   className="text-l m-2 w-[12ch] whitespace-nowrap text-center mx-auto bg-transparent text-gray-400 text-center"
                   value={currency}
-                  onChange={handleCurrencyChange} // Handle currency change
+                  onChange={handleCurrencyChange}
                 >
                   <option value="SATS">SATS</option>
                   <option value="EUR">EUR</option>
@@ -190,6 +195,7 @@ export function New() {
                 type="button" // Prevent form submission
                 className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
                 onClick={() => handleNumberClick(`00`)}
+                disabled={currency === "SATS"}
               >
                 .00
               </button>
