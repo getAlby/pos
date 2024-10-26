@@ -58,8 +58,11 @@ export function New() {
       return;
     }
     try {
+      if (!provider) {
+        throw new Error("wallet not loaded");
+      }
       setLoading(true);
-      const invoice = await provider?.makeInvoice({
+      const invoice = await provider.makeInvoice({
         amount: totalInSats.toString(), // Use total for the invoice
         defaultMemo: label,
       });
@@ -135,12 +138,12 @@ export function New() {
         >
           <div className="flex flex-col items-center justify-center w-full flex-1">
             <div className="flex flex-col mb-4 items-center justify-center">
-              <p className="text-4xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
+              <p className="text-7xl pb-2 w-[21ch] whitespace-nowrap text-center mx-auto">
                 {formatNumber(amount)}
               </p>
               <div className="flex items-center justify-center">
                 <select
-                  className="text-l m-2 w-[12ch] whitespace-nowrap text-center mx-auto bg-transparent text-gray-400 text-center"
+                  className="text-l m-2 w-[7ch] whitespace-nowrap mx-auto bg-transparent text-gray-400 text-center"
                   value={currency}
                   onChange={handleCurrencyChange}
                 >
