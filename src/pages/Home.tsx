@@ -62,7 +62,14 @@ export function Home() {
               try {
                 const info = await provider.getInfo();
                 if (info.methods.includes("sendPayment")) {
-                  throw new Error("Only read-only connections can be used.");
+                  if (
+                    !confirm(
+                      "The provided connection secret seems to be able to make payments. This could lead to lost funds if you share the PoS URL with others. Are you sure you wish to continue?"
+                    )
+                  ) {
+                    disconnect();
+                    return;
+                  }
                 }
                 if (
                   !info.methods.includes("makeInvoice") ||
