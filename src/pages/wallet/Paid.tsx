@@ -10,7 +10,7 @@ export function Paid() {
           <span className="text-xl">Payment received</span>
         </div>
       </div>
-      <Link to="../new" className="w-full">
+      <Link to="../new" className="w-full pb-2">
         <button className="btn btn-primary w-full">Start over</button>
       </Link>
     </>
