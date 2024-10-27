@@ -240,7 +240,7 @@ export function New() {
             </div>
           </div>
           <button
-            className="btn bg-green-600 hover:bg-green-500 w-full h-16 text-xl font-bold flex-grow-0"
+            className="btn btn-primary w-full h-16 text-xl font-bold flex-grow-0"
             type="submit"
             disabled={isLoading || total <= 0} // Disable if total is 0
           >
