@@ -183,23 +183,23 @@ export function New() {
               <p className="text-gray-400 text-sm">{label}</p>
               <PopiconsEditPencilDuotone className="h-4 w-4" />
             </button>
-            <div className="grid grid-cols-3 gap-4 w-full">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                 <button
                   key={num}
                   type="button" // Prevent form submission
-                  className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
+                  className="btn btn-primary w-full h-12 sm:h-16 flex-grow text-2xl flex items-center justify-center"
                   onClick={() => handleNumberClick(`${num}`)}
                 >
                   {num}
                 </button>
               ))}
 
-              <span className="w-full h-16 flex-grow text-2xl flex items-center justify-center"></span>
+              <span className="w-full h-12 sm:h-16 flex-grow text-2xl flex items-center justify-center"></span>
 
               <button
                 type="button" // Prevent form submission
-                className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
+                className="btn btn-primary w-full h-12 sm:h-16 flex-grow text-2xl flex items-center justify-center"
                 onClick={() => handleNumberClick(`0`)}
               >
                 0
@@ -207,7 +207,7 @@ export function New() {
 
               <button
                 type="button" // Prevent form submission
-                className="btn btn-primary w-full h-16 flex-grow text-2xl flex items-center justify-center"
+                className="btn btn-primary w-full h-12 sm:h-16 flex-grow text-2xl flex items-center justify-center"
                 onClick={() => handleNumberClick(`00`)}
                 disabled={currency === "SATS"}
               >
@@ -216,7 +216,7 @@ export function New() {
 
               <button
                 type="button" // Prevent form submission
-                className="btn btn-light w-full h-8 flex-grow text-l flex items-center justify-center text-gray-400"
+                className="btn btn-light w-full h-6 sm:h-8 flex-grow text-l flex items-center justify-center text-gray-400"
                 onClick={handleClear}
               >
                 Clear
@@ -224,7 +224,7 @@ export function New() {
 
               <button
                 type="button" // Prevent form submission
-                className="btn btn-light w-full h-8 flex-grow text-l flex items-center justify-center text-gray-400"
+                className="btn btn-light w-full h-6 sm:h-8 flex-grow text-l flex items-center justify-center text-gray-400"
                 onClick={handleDelete}
               >
                 Del
@@ -232,7 +232,7 @@ export function New() {
 
               <button
                 type="button" // Prevent form submission
-                className="btn btn-light w-full h-8 flex-grow text-2xl font-bold flex items-center justify-center"
+                className="btn btn-light w-full h-6 sm:h-8 flex-grow text-2xl font-bold flex items-center justify-center"
                 onClick={handlePlus} // Add to total
               >
                 +
