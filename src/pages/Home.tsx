@@ -16,6 +16,11 @@ export function Home() {
   const [params] = useSearchParams();
 
   React.useEffect(() => {
+    const label = params.get("label") || params.get("name");
+    if (label) {
+      localStorage.setItem(localStorageKeys.label, label); // Save the label to local storage
+    }
+
     // Load label from query parameter and save it to local storage
     const nwcEncoded = params.get("nwc");
     if (nwcEncoded) {
