@@ -43,7 +43,7 @@ export function Home() {
   React.useEffect(() => {
     init({
       appName: "BuzzPay PoS",
-      appIcon: "http://pos.albylabs.com/icon.png",
+      appIcon: "https://pos.albylabs.com/icon.png",
       filters: ["nwc"],
       showBalance: false,
       providerConfig: {
