@@ -42,12 +42,15 @@ export function Home() {
 
   React.useEffect(() => {
     init({
+      appName: "BuzzPay PoS",
+      appIcon: "http://pos.albylabs.com/icon.png",
       filters: ["nwc"],
       showBalance: false,
       providerConfig: {
         nwc: {
           authorizationUrlOptions: {
             requestMethods: ["get_info", "make_invoice", "lookup_invoice"],
+            isolated: true,
           },
         },
       },

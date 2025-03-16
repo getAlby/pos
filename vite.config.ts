@@ -3,9 +3,9 @@ import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 import react from "@vitejs/plugin-react-swc";
 
 const pwaConfig: Partial<VitePWAOptions> = {
-  includeAssets: ["shortcut-icon.png", "icon.png", "icon.svg"],
+  includeAssets: ["shortcut-icon.png", "icon.png"],
   manifest: {
-    name: "BuzzPay Simple",
+    name: "BuzzPay PoS",
     short_name: "BuzzPay",
     description: "Alby's super simple self-custodial PoS",
     scope: "/",
@@ -16,7 +16,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
       {
         src: "shortcut-icon.png",
         type: "image/png",
-        sizes: "512x512",
+        sizes: "256x256", // TODO: replace with 512x512 image
       },
     ],
   },
