@@ -51,6 +51,9 @@ export function Home() {
           authorizationUrlOptions: {
             requestMethods: ["get_info", "make_invoice", "lookup_invoice"],
             isolated: true,
+            metadata: {
+              app_store_app_id: "buzzpay",
+            },
           },
         },
       },
