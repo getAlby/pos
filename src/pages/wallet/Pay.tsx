@@ -11,6 +11,20 @@ export function Pay() {
   const { provider } = useStore();
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
+  const [hasCopied, setCopied] = useState(false);
+
+  function copyQr() {
+    try {
+      if (!invoice) {
+        return;
+      }
+      window.navigator.clipboard.writeText(invoice);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1000);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     if (!provider) {
@@ -49,12 +63,12 @@ export function Pay() {
       <div className="flex grow flex-col items-center justify-center gap-5">
         <span className="text-4xl font-bold">{new Intl.NumberFormat().format(amount)} sats</span>
         <span className="font-semibold">{description}</span>
-        <div className="relative flex items-center justify-center">
+        <div className="relative flex items-center justify-center" onClick={copyQr}>
           <QRCodeSVG value={invoice} size={256} />
         </div>
         <p className="mb-4 flex flex-row items-center justify-center gap-2">
-          <span className="loading loading-spinner text-primary"></span>
-          Waiting for payment...
+          {!hasCopied && <span className="loading loading-spinner text-primary"></span>}
+          {hasCopied ? "✅ Invoice Copied!" : "Waiting for payment..."}
         </p>
         <button
           onClick={() => {
