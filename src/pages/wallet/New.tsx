@@ -31,7 +31,7 @@ export function New() {
 
         mappedCurrencies.sort((a, b) => a[1].priority - b[1].priority);
 
-        setCurrencies(mappedCurrencies.map((currency) => currency[0].toUpperCase()));
+        setCurrencies(["SATS", ...mappedCurrencies.map((currency) => currency[0].toUpperCase())]);
       } catch (error) {
         console.error(error);
       }
