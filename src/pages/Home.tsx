@@ -68,7 +68,11 @@ export function Home() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-full h-full bg-primary">
+      <div
+        className="flex flex-col justify-center items-center w-full h-full bg-primary"
+        // force light theme on the home/welcome page because it has a yellow background
+        data-theme="light"
+      >
         <div className="flex flex-1 flex-col justify-center items-center max-w-lg">
           <BuzzPay className="mb-8" />
 

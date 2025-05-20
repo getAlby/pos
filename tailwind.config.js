@@ -16,9 +16,16 @@ export default {
   daisyui: {
     themes: [
       {
-        bumblebee: {
+        light: {
           // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
           ...require("daisyui/src/theming/themes")["bumblebee"],
+          primary: "#FCE589",
+        },
+      },
+      {
+        dark: {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
+          ...require("daisyui/src/theming/themes")["dark"],
           primary: "#FCE589",
         },
       },
