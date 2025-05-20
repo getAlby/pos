@@ -13,4 +13,5 @@ body {
 
 html {
   --bc-color-brand: #000000;
+  --bc-brand-mix: 30%;
 }
