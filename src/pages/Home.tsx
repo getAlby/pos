@@ -21,6 +21,11 @@ export function Home() {
       localStorage.setItem(localStorageKeys.label, label); // Save the label to local storage
     }
 
+    const currency = params.get("currency");
+    if (currency) {
+      localStorage.setItem(localStorageKeys.currency, currency); // Save the currency to local storage
+    }
+
     // Load label from query parameter and save it to local storage
     const nwcEncoded = params.get("nwc");
     if (nwcEncoded) {

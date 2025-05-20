@@ -16,7 +16,7 @@ export function Share() {
       setShareURI(
         window.location.href.replace(
           "/wallet/share",
-          `?nwc=${nwcEncoded}&name=${localStorage.getItem(localStorageKeys.label) || ""}`
+          `?nwc=${nwcEncoded}&name=${localStorage.getItem(localStorageKeys.label) || ""}&currency=${localStorage.getItem(localStorageKeys.currency) || ""}`
         )
       );
     }

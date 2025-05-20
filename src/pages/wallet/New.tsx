@@ -49,12 +49,18 @@ export function New() {
   }, []); // Run once on mount
 
   useEffect(() => {
-    // Load label from query parameter and save it to local storage
     const queryParams = new URLSearchParams(location.search);
+    // Load label from query parameter and save it to local storage
     const labelFromQuery = queryParams.get("label") || queryParams.get("name");
     if (labelFromQuery) {
       localStorage.setItem(localStorageKeys.label, labelFromQuery); // Save the label to local storage
       setLabel(labelFromQuery);
+    }
+    // Load currency from query parameter and save it to local storage
+    const currencyFromQuery = queryParams.get("currency");
+    if (currencyFromQuery) {
+      localStorage.setItem(localStorageKeys.currency, currencyFromQuery); // Save the label to local storage
+      setLabel(currencyFromQuery);
     }
   }, [location]); // Run once on mount and when location changes
 
