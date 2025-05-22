@@ -12,10 +12,7 @@ import { localStorageKeys } from "./constants";
 
 function App() {
   return (
-    <div
-      data-theme="bumblebee"
-      className="flex h-full w-full flex-col items-center justify-center font-sans"
-    >
+    <div className="flex h-full w-full flex-col items-center justify-center font-sans">
       <Router>
         <Routes>
           <Route path="/" Component={Home} />
