@@ -1,5 +1,5 @@
 import { Invoice } from "@getalby/lightning-tools";
-import { QRCodeSVG } from "qrcode.react";
+import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Backbar } from "../../components/Backbar";
@@ -63,8 +63,8 @@ export function Pay() {
       <div className="flex grow flex-col items-center justify-center gap-5">
         <span className="text-4xl font-bold">{new Intl.NumberFormat().format(amount)} sats</span>
         <span className="font-semibold">{description}</span>
-        <div className="relative flex items-center justify-center" onClick={copyQr}>
-          <QRCodeSVG value={invoice} size={256} />
+        <div className="relative flex items-center justify-center p-4 bg-white" onClick={copyQr}>
+          <QRCode value={invoice} size={256} />
         </div>
         <p className="mb-4 flex flex-row items-center justify-center gap-2">
           {!hasCopied && <span className="loading loading-spinner text-primary"></span>}

@@ -39,7 +39,9 @@ export function Share() {
       <Backbar />
       <div className="flex flex-grow gap-5 flex-col justify-center items-center">
         Let your co-workers scan this QR code
-        <QRCode value={shareURI} size={256} />
+        <div className="relative flex items-center justify-center p-4 bg-white">
+          <QRCode value={shareURI} size={256} />
+        </div>
         or share this URI with them:
         <div className="flex border-2 rounded-lg">
           <input
