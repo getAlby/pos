@@ -5,6 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Backbar } from "../../components/Backbar";
 import useStore from "../../state/store";
 
+const POLL_INTERVAL_MS = 3000;
+const NOTIFICATIONS_FALLBACK_POLL_INTERVAL_MS = 30000;
+
 export function Pay() {
   const { invoice } = useParams();
   const navigate = useNavigate();
@@ -27,30 +30,93 @@ export function Pay() {
   }
 
   useEffect(() => {
-    if (!provider) {
+    if (!provider || !invoice) {
       return;
     }
-    if (invoice) {
-      const inv = new Invoice({ pr: invoice });
-      const { satoshi, description } = inv;
-      setAmount(satoshi);
-      if (description) {
-        setDescription(description);
-      }
+    const inv = new Invoice({ pr: invoice });
+    const { satoshi, description } = inv;
+    setAmount(satoshi);
+    if (description) {
+      setDescription(description);
+    }
 
-      const interval = setInterval(async () => {
+    let cancelled = false;
+    let paid = false;
+    let unsubscribe: (() => void) | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
+
+    const onPaid = () => {
+      if (cancelled || paid) {
+        return;
+      }
+      paid = true;
+      navigate("../paid");
+    };
+
+    const checkInvoice = async () => {
+      try {
         console.log("Checking invoice", invoice);
         const response = await provider.lookupInvoice({
           paymentRequest: invoice,
         });
         if (response.paid) {
-          navigate("../paid");
+          onPaid();
         }
-      }, 3000);
-      return () => {
+      } catch (error) {
+        console.error("Failed to look up invoice", error);
+      }
+    };
+
+    const startPolling = (intervalMs: number) => {
+      interval = setInterval(checkInvoice, intervalMs);
+    };
+
+    (async () => {
+      try {
+        // Prefer NIP-47 notifications when the wallet supports them
+        const info = await provider.client.getInfo();
+        if (cancelled) {
+          return;
+        }
+        if (info.notifications?.includes("payment_received")) {
+          const unsub = await provider.client.subscribeNotifications(
+            (notification) => {
+              if (
+                notification.notification_type === "payment_received" &&
+                (notification.notification.payment_hash === inv.paymentHash ||
+                  notification.notification.invoice === invoice)
+              ) {
+                onPaid();
+              }
+            },
+            ["payment_received"]
+          );
+          if (cancelled) {
+            unsub();
+            return;
+          }
+          unsubscribe = unsub;
+          // the invoice may have been paid before the subscription was active
+          checkInvoice();
+          // slow safety net in case the relay subscription silently drops
+          startPolling(NOTIFICATIONS_FALLBACK_POLL_INTERVAL_MS);
+          return;
+        }
+      } catch (error) {
+        console.error("Failed to subscribe to notifications, falling back to polling", error);
+      }
+      if (!cancelled) {
+        startPolling(POLL_INTERVAL_MS);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+      if (interval) {
         clearInterval(interval);
-      };
-    }
+      }
+    };
   }, [invoice, navigate, provider]);
 
   if (!invoice) {
